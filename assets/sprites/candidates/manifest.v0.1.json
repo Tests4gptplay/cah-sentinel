@@ -1,0 +1,48 @@
+{
+  "schema": "cah-sentinel.art-candidates.v0.1",
+  "version": "0.1-draft",
+  "project": "https://github.com/Tests4gptplay/cah-sentinel",
+  "original_character_creator": "ZipZipPipe",
+  "original_creator_page": "https://space.bilibili.com/4168597/dynamic",
+  "art_license": "CC BY-NC-SA 4.0",
+  "art_license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "derivative_process": "AI image generation referencing the user-supplied ZipZipPipe dragon-girl sprite sheets",
+  "status": "candidate; not yet integrated into v0.0.1 or committed as art binaries",
+  "package_basename": "CAH-Sentinel-ActionCandidates-v0.1.zip",
+  "package_sha256": "c7b6e8263b408c8b642826032ec1e920665513b82d02a097253a8330e9d69e06",
+  "image_list": [
+    {
+      "state": "WAIT_USER",
+      "filename": "assets/candidates/wait_user_need_help.png",
+      "size": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "f33fa5fa0269b037456ded04f699e6da776af7f8c9f7b42636783c61980bc49a",
+      "description_zh": "举 NEED HELP 牌的求助站姿"
+    },
+    {
+      "state": "ERROR",
+      "filename": "assets/candidates/error_prone.png",
+      "size": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "1e7821047add998a5d0493e6d521b9840f5afe64674cb82a1d6007d2dc5b6543",
+      "description_zh": "出错后低落地趴卧"
+    },
+    {
+      "state": "COMPLETE",
+      "filename": "assets/candidates/complete_flying_check.png",
+      "size": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "6ee593939cd762aef9e94bea8a209131a81b0506743c3603cc7f77a3afc90a40",
+      "description_zh": "开心飞行举√牌庆祝父任务成功"
+    }
+  ]
+}
