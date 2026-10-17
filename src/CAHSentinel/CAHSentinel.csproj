@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>CAHSentinel</AssemblyName>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../CAHSentinel.Core/CAHSentinel.Core.csproj" />
+    <Content Include="assets/sprites/*.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

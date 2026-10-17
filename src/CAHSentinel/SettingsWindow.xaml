@@ -1,0 +1,28 @@
+<Window x:Class="CAHSentinel.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="CAH Sentinel · Settings" Width="550" Height="380"
+    WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+    Background="#F7F5FC">
+  <Grid Margin="20">
+    <StackPanel>
+      <TextBlock Text="CAH Sentinel v0.0.1" FontSize="18" FontWeight="Bold" Foreground="#4D416C"/>
+      <TextBlock Margin="0,4,0,13" Text="只读独立监控；不修改 CAH 仓库与调度。" Foreground="#615A70"/>
+      <TextBlock Text="私有 CAH 仓库 HTTPS Git URL（使用你已有的 Git 登录凭据）"/>
+      <TextBox x:Name="RemoteField" Margin="0,3,0,11" Padding="6"/>
+      <TextBlock Text="分支"/>
+      <TextBox x:Name="BranchField" Margin="0,3,0,11" Padding="6"/>
+      <TextBlock Text="Foreground 聊天链接（点击通知打开这里）"/>
+      <TextBox x:Name="ForegroundField" Margin="0,3,0,11" Padding="6"/>
+      <StackPanel Orientation="Horizontal" Margin="0,3,0,6">
+        <CheckBox x:Name="NotificationField" Content="Windows 提醒" Margin="0,0,18,0"/>
+        <CheckBox x:Name="MonitorField" Content="启用监控" Margin="0,0,18,0"/>
+        <CheckBox x:Name="PetField" Content="显示桌宠"/>
+      </StackPanel>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+        <Button Content="取消" Width="80" Padding="8" Margin="0,0,10,0" IsCancel="True"/>
+        <Button Content="保存" Width="86" Padding="8" IsDefault="True" Click="OnSave"/>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</Window>
