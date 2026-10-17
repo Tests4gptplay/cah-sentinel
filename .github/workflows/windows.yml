@@ -1,0 +1,40 @@
+name: Build CAH Sentinel (Windows)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Test read-only state projection
+        run: dotnet run --project tests/CAHSentinel.Core.Tests/CAHSentinel.Core.Tests.csproj --configuration Release
+      - name: Publish standalone Win-x64 build
+        shell: pwsh
+        run: |
+          dotnet publish src/CAHSentinel/CAHSentinel.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o dist/publish
+          if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
+          Compress-Archive -Path dist/publish/* -DestinationPath dist/CAH-Sentinel-v0.0.1-win-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CAH-Sentinel-v0.0.1-win-x64
+          path: dist/CAH-Sentinel-v0.0.1-win-x64.zip
+          if-no-files-found: error
+      - name: Create first v0.0.1 prerelease after passing tests
+        if: github.ref == 'refs/heads/main'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view v0.0.1 --repo "$env:GITHUB_REPOSITORY" 2>$null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create v0.0.1 dist/CAH-Sentinel-v0.0.1-win-x64.zip --repo "$env:GITHUB_REPOSITORY" --target "$env:GITHUB_SHA" --title "CAH Sentinel v0.0.1 (experimental)" --notes "Read-only Windows CAH tray monitor + experimental pet shell. Sprite pack distributed separately; see README and CC BY-NC-SA 4.0 asset notice." --prerelease
+            if ($LASTEXITCODE -ne 0) { throw "Failed to create release" }
+          }
