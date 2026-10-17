@@ -176,7 +176,7 @@ public partial class PetWindow : Window
         if (!Uri.TryCreate(_settings.ForegroundUrl, UriKind.Absolute, out var uri) ||
             uri.Scheme != "https" || uri.Host != "chatgpt.com")
         {
-            MessageBox.Show("请先在设置中填写自己的 Foreground ChatGPT 对话链接。", "CAH Sentinel");
+            System.Windows.MessageBox.Show("请先在设置中填写自己的 Foreground ChatGPT 对话链接。", "CAH Sentinel");
             OpenSettings();
             return;
         }
@@ -198,7 +198,7 @@ public partial class PetWindow : Window
         _timer.Stop();
         _tray.Visible = false;
         _tray.Dispose();
-        Application.Current.Shutdown();
+        System.Windows.Application.Current.Shutdown();
     }
 
     private void OnClosing(object? sender, CancelEventArgs e)
