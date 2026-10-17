@@ -1,4 +1,5 @@
 using CAHSentinel.Core;
+using System.Text.Json;
 
 var tests = 0;
 void Check(bool pass, string label)
@@ -10,11 +11,17 @@ const string outcome = """
 {"outcome":"NEED_USER","semantic":{"question":"Please inspect your antivirus."}}
 """;
 const string title = """{"title":"MV example"}""";
-TaskView Parse(string status, string activity, string waitKind, string decision = "state/planner_turns/x/outcome.json") =>
-    StateProjection.Project("example", $$"""
-    {"status":"{{status}}","planner_control":{"activity":"{{activity}}",
-    "wait":{"kind":"{{waitKind}}"},"last_decision":{"decision_ref":"{{decision}}"}}}
-    """, title, outcome);
+TaskView Parse(string status, string activity, string waitKind, string decision = "state/planner_turns/x/outcome.json")
+{
+    var cellJson = JsonSerializer.Serialize(new {
+        status,
+        planner_control = new {
+            activity, wait = new { kind = waitKind },
+            last_decision = new { decision_ref = decision }
+        }
+    });
+    return StateProjection.Project("example", cellJson, title, outcome);
+}
 
 var a = Parse("WAIT_USER", "WAIT_USER", "NEED_USER");
 Check(a.Mood == PetMood.WaitUser, "WAIT_USER mapped");
