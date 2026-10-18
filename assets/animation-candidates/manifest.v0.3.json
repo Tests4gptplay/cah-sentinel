@@ -1,0 +1,129 @@
+{
+  "schema": "cah-sentinel.gif-candidate-inventory.v0.3",
+  "date": "2026-10-18",
+  "release_target": "proposed M1; NOT v0.0.2",
+  "public_git_binary_status": "not_uploaded; this repository contains metadata and no GIF binaries yet",
+  "owner_archive": {
+    "location": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.3.zip",
+    "sha256": "3a98bbc6ff741e004a6adfab374a50b38a3022315d3022a024ed6c197afdd294",
+    "bytes": 3126727
+  },
+  "license": {
+    "original_artist": "ZipZipPipe",
+    "artist_url": "https://space.bilibili.com/4168597/dynamic",
+    "art": "CC BY-NC-SA 4.0",
+    "derivatives_are_ai_generated": true,
+    "software": "AGPL-3.0-only",
+    "public_distribution_permission": "not assumed by record"
+  },
+  "assets": [
+    {
+      "id": "WAIT_USER",
+      "path": "states/wait_user/loop.gif",
+      "filename": "CAH-Sentinel-wait-user-v0.2.gif",
+      "sha256": "c0f26c33f2006334a7eee67ad871904ae1a65a8fcc1d3390f0b8a7708d19fa38",
+      "size_bytes": 139333,
+      "frame_count": 4,
+      "run_ms": 4040,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          246,
+          268
+        ],
+        "height": [
+          351,
+          353
+        ]
+      },
+      "review": "candidate_needs_character_consistency_review",
+      "notes": "Distinct regenerated character keyframes; height is stable, body outline/face/detail continuity still subject to subjective acceptance.",
+      "canvas_px": [
+        420,
+        420
+      ],
+      "approved_for_release": false
+    },
+    {
+      "id": "ERROR",
+      "path": "states/error/loop.gif",
+      "filename": "CAH-Sentinel-error-v0.3.gif",
+      "sha256": "0e9fe898dd2aec8084c8fafbef511baebbb89b53ff1f3e5bb7739317a5b9a5dc",
+      "size_bytes": 157591,
+      "frame_count": 7,
+      "run_ms": 5500,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          315,
+          315
+        ],
+        "height": [
+          180,
+          180
+        ]
+      },
+      "review": "candidate_technical_checks_passed",
+      "notes": "A single consistent prone source, gentle vertical breathing only; previous ERROR v0.2 improperly showed autonomous recovery and was rejected.",
+      "canvas_px": [
+        420,
+        420
+      ],
+      "approved_for_release": false
+    },
+    {
+      "id": "COMPLETE",
+      "path": "states/complete/once.gif",
+      "filename": "CAH-Sentinel-complete-v0.2.gif",
+      "sha256": "cbcb81d3656b016e9d6e96e9adbf5512afa171f2e875899aad3e7aca57061f6c",
+      "size_bytes": 1157349,
+      "frame_count": 48,
+      "run_ms": 5760,
+      "clip": "once",
+      "bounds_px": {
+        "width": [
+          223,
+          226
+        ],
+        "height": [
+          263,
+          268
+        ]
+      },
+      "review": "candidate_technical_checks_passed",
+      "notes": "One persistent figure in continuous motion, no GIF loop extension, unlike rejected infinitely looping v0.1. Runtime must still enforce parent-accepted-only event.",
+      "canvas_px": [
+        420,
+        420
+      ],
+      "approved_for_release": false
+    },
+    {
+      "id": "IDLE",
+      "path": "states/idle/loop.gif",
+      "filename": "CAH-Sentinel-idle-v0.1.gif",
+      "sha256": "0cac2e27bcb88e971dcdecbd5b44521b28e6bbf41ad12ea5702935885f98bc0c",
+      "size_bytes": 222191,
+      "frame_count": 7,
+      "run_ms": 6050,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          215,
+          225
+        ],
+        "height": [
+          341,
+          348
+        ]
+      },
+      "review": "candidate_technical_checks_passed",
+      "notes": "Actual source idle sheet I1/I2/I5, split at alpha-empty columns and positioned using one constant scale and one foot-ground baseline; no per-frame stretching.",
+      "canvas_px": [
+        420,
+        420
+      ],
+      "approved_for_release": false
+    }
+  ]
+}

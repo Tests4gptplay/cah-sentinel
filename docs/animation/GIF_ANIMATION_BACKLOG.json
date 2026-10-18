@@ -6,7 +6,7 @@
   "art_plan_ref": "docs/art/ACTION_GENERATION_PLAN.md",
   "art_progress_ref": "docs/art/ACTION_BACKLOG.json",
   "application_baseline": "v0.0.2 (local-only/static; unchanged by this planning revision)",
-  "status": "planning",
+  "status": "in_progress",
   "next_step": "GF-00",
   "release_gate": "No public art packaging before independent owner approval and CC BY-NC-SA 4.0 notices.",
   "milestone_order": [
@@ -65,7 +65,8 @@
     "manifests": [
       "assets/sprites/candidates/manifest.v0.1.json",
       "assets/sprites/candidates/manifest.generated-9.v0.2.json"
-    ]
+    ],
+    "generated_gif_candidates": 4
   },
   "boundaries": {
     "no_CAH_runtime_code_or_state_changes": true,
@@ -86,7 +87,7 @@
       "id": "GF-00",
       "title": "M1 素材审查与32姿势轻量索引",
       "milestone": "M1",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [],
       "required_art_stages": [],
       "deliverables": [
@@ -95,9 +96,13 @@
         "accept/rework notes and 128/192/256px previews"
       ],
       "acceptance": "User approves M1 source selection and proven alpha/anchor consistency; M2 full-art acceptance is NOT a gate.",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "assets/animation-candidates/manifest.v0.3.json",
+        "docs/animation/GIF_QA_20261018.md"
+      ],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "notes": "Four GIF candidates inventoried and measured; full 32-pose map, WORKING source and user review remain pending. Do not accept stage."
     },
     {
       "id": "GF-01",
@@ -309,5 +314,7 @@
       "user_accepted": false,
       "review_required": true
     }
-  ]
+  ],
+  "source_evidence": "assets/animation-candidates/manifest.v0.3.json",
+  "owner_archive": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.3.zip"
 }

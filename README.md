@@ -50,6 +50,8 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 
 **Two milestones:** first deliver five genuinely playable GIF states (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), then expand the other six. [Revised GIF-first plan v0.2](docs/animation/GIF_ANIMATION_PLAN.md) and [GF-00–GF-10 execution backlog](docs/animation/GIF_ANIMATION_BACKLOG.json). Animation is a separate resource, not a complex rigging engine. The shipped v0.0.2 still uses static sprites, and unreviewed derivative art is not publicly bundled.
 
+Four newly generated and technically checked **candidate GIFs** (IDLE, WAIT_USER, ERROR, COMPLETE) are backed up as a separate ZIP in the owner's ChatGPT Library. [Exact GIF SHA-256 inventory](assets/animation-candidates/manifest.v0.3.json) and [QA notes](docs/animation/GIF_QA_20261018.md) are committed to Git, **not the GIF binary files**. Existing v0.0.2 application does not play them yet.
+
 ## Development
 
 - `src/CAHSentinel.Core/`: deterministic state projector and local-only Git reader.
