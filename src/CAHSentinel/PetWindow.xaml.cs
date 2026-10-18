@@ -82,7 +82,7 @@ public partial class PetWindow : Window
         try
         {
             // Read only local Git objects already refreshed by CAH; no network fetch or authentication.
-            var snapshot = await _reader.ReadAsync(_settings.LocalRepoPath, cancellation.Token);
+            var snapshot = await ReadRetry.RunAsync(ct => _reader.ReadAsync(_settings.LocalRepoPath, ct), cancellation.Token);
             if (_exiting || !_settings.Monitoring || generation != _generation) return;
             _current = snapshot;
             _offlineAlerted = false;
