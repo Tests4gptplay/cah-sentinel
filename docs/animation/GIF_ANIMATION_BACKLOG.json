@@ -147,11 +147,12 @@
         "docs/animation/GF02_PLAYER.md",
         "tests/CAHSentinel.Animation.Tests/Program.cs",
         "tests/CAHSentinel.Core.Tests/Program.cs",
-        "https://github.com/Tests4gptplay/cah-sentinel/actions/runs/39134248939"
+        "https://github.com/Tests4gptplay/cah-sentinel/actions/runs/39134248939",
+        "https://github.com/Tests4gptplay/cah-sentinel/actions/runs/39134484758"
       ],
       "user_accepted": false,
       "review_required": true,
-      "notes": "Implementation, cross-platform regression and GitHub-hosted Windows GIF tests/build passed (run #7). Real-PC playback and owner review remain pending. GF-00/GF-01/art approval and M1 remain incomplete."
+      "notes": "Implementation, Linux core regression and GitHub-hosted Windows GIF tests/build passed, including decoder limits (run #8, e01ec93f4a09fb856707fa6691d2b5c6b15265af). Real-PC playback and owner review remain pending. GF-00/GF-01/art approval and M1 remain incomplete."
     },
     {
       "id": "GF-03",

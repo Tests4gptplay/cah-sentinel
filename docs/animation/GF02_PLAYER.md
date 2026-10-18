@@ -77,3 +77,13 @@ no tag or existing Release is changed and no v0.0.3 is created.
 Still required: owner visual acceptance (scale/character continuity/edges),
 real Windows tray and pause-during-poll QA, 60s+ resource/interaction tests, and
 GF-03–GF-07 per-group integration acceptance. No source PNGs were changed.
+
+## Final preflight regression
+
+[Windows CI run #8](https://github.com/Tests4gptplay/cah-sentinel/actions/runs/39134484758) passed on
+`e01ec93f4a09fb856707fa6691d2b5c6b15265af` (1m27s), including the native-decoder
+preflight, oversized/truncated GIF rejection, synthetic pixel/dispatcher tests,
+all five candidate decodes, local-only regression and code-only Windows publish.
+Every current-main GIF raw URL was separately re-downloaded with HTTP 200 and
+matching SHA-256. The working tree was clean after the implementation commits.
+GF-02 remains in progress pending the documented real-PC and owner acceptance gates.
