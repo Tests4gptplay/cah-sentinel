@@ -30,6 +30,7 @@ repository access is required by the player.
   patches/transparency and disposal 0/1/2/3, and preserves positive centisecond
   delays. Missing/zero delay defaults to 100ms. File size is capped at 16MiB,
   canvas at 1024×1024, frame count at 256 and composed pixels at 32 million.
+  A block-structure preflight checks limits before native decoder allocation.
 - `GifPlayer` has PlayLoop / PlayOnce / Stop / SwitchState and static fallback.
   A monotonic clock and separate DispatcherTimer advance frames independently
   of the 30-second status poll. Repeated same-state polls do not restart playback.
@@ -63,6 +64,8 @@ GitHub-hosted `windows-latest` CI runs the dependency-free Windows test executab
 synthetic four-frame GIF with independently decoded pixel oracle (disposal,
 transparency, offsets and exact timing), dispatcher playback, loop/forced-once,
 same-state polling, urgent preemption, pause, stale, reduced motion and fallback.
+[Windows CI run #7](https://github.com/Tests4gptplay/cah-sentinel/actions/runs/39134248939)
+passed on commit `2d4bc0e42dec6e95cbaeef8f901e8c783a13928a` (1m31s).
 It also decodes all five checked-in candidate GIFs and checks canvas, duration and
 frame count, without copying them into build artifacts. Check the actual run
 result; test-project compilation is not an executed Windows test pass.

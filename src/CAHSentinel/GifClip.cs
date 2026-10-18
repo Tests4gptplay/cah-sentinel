@@ -19,6 +19,8 @@ public sealed record GifClip(IReadOnlyList<BitmapSource> Frames, IReadOnlyList<T
             throw new InvalidDataException("Not a GIF.");
         var width = (int)BinaryPrimitives.ReadUInt16LittleEndian(header[6..8]);
         var height = (int)BinaryPrimitives.ReadUInt16LittleEndian(header[8..10]);
+        if (width is < 1 or > 1024 || height is < 1 or > 1024)
+            throw new InvalidDataException("GIF canvas limit.");
         byte[] background = [0, 0, 0, 0];
         if ((header[10] & 0x80) != 0)
         {
@@ -28,13 +30,13 @@ public sealed record GifClip(IReadOnlyList<BitmapSource> Frames, IReadOnlyList<T
             if (index + 2 < palette.Length)
                 background = [palette[index + 2], palette[index + 1], palette[index], 255];
         }
+        // Inspect frame count/rectangles before native WIC decoding allocates surfaces.
+        // Compressed inputs can be tiny despite a very large decompressed footprint.
+        var count = ValidateStructure(stream, width, height);
         stream.Position = 0;
         var decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-        if (decoder.Frames.Count is < 1 or > 256) throw new InvalidDataException("GIF frame count limit.");
+        if (decoder.Frames.Count != count) throw new InvalidDataException("GIF frame count mismatch.");
         var first = decoder.Frames[0];
-        if (width is < 1 or > 1024 || height is < 1 or > 1024
-            || (long)width * height * decoder.Frames.Count > 32_000_000)
-            throw new InvalidDataException("GIF decoded pixel limit.");
         var stride = checked(width * 4);
         var canvas = new byte[checked(stride * height)];
         if (Number(first.Metadata, "/grctlext/TransparencyFlag", 0) == 0)
@@ -92,5 +94,52 @@ public sealed record GifClip(IReadOnlyList<BitmapSource> Frames, IReadOnlyList<T
     {
         if (metadata is not BitmapMetadata bitmap || !bitmap.ContainsQuery(query)) return fallback;
         return Convert.ToInt32(bitmap.GetQuery(query));
+    }
+
+    private static int ValidateStructure(Stream stream, int width, int height)
+    {
+        // Positioned just after header/global color table. Extensions and LZW data use
+        // bounded sub-blocks; no decoding, scripts, URLs or arbitrary metadata execution.
+        using var reader = new BinaryReader(stream, System.Text.Encoding.ASCII, leaveOpen: true);
+        void Skip(int bytes)
+        {
+            if (stream.Length - stream.Position < bytes) throw new EndOfStreamException();
+            stream.Position += bytes;
+        }
+        void SkipBlocks()
+        {
+            for (var size = reader.ReadByte(); size != 0; size = reader.ReadByte()) Skip(size);
+        }
+        var count = 0;
+        while (true)
+        {
+            switch (reader.ReadByte())
+            {
+                case 0x3b:
+                    if (count == 0) throw new InvalidDataException("Empty GIF.");
+                    return count;
+                case 0x21:
+                    reader.ReadByte(); // extension label
+                    SkipBlocks();
+                    break;
+                case 0x2c:
+                    var left = reader.ReadUInt16();
+                    var top = reader.ReadUInt16();
+                    var w = reader.ReadUInt16();
+                    var h = reader.ReadUInt16();
+                    var packed = reader.ReadByte();
+                    if (w == 0 || h == 0 || left + w > width || top + h > height)
+                        throw new InvalidDataException("GIF frame escapes canvas.");
+                    if (++count > 256 || (long)width * height * count > 32_000_000)
+                        throw new InvalidDataException("GIF decoded pixel/frame limit.");
+                    if ((packed & 0x80) != 0) Skip(3 * (2 << (packed & 7)));
+                    var codeSize = reader.ReadByte();
+                    if (codeSize is < 2 or > 8) throw new InvalidDataException("Invalid GIF LZW code size.");
+                    SkipBlocks();
+                    break;
+                default:
+                    throw new InvalidDataException("Invalid GIF block.");
+            }
+        }
     }
 }

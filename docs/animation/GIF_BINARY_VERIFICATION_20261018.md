@@ -15,3 +15,5 @@ Archive: 3,201,546 bytes; SHA-256 `2e50b81ddd48e03408a90ca9159b5d5f001dd60b86f13
 | `states/complete/once.gif` | 1157349 | `cbcb81d3656b016e9d6e96e9adbf5512afa171f2e875899aad3e7aca57061f6c` | PASS |
 
 Art attribution: `assets/animation-candidates/ATTRIBUTION.md`; license: `assets/animation-candidates/LICENSE-ART.md` and root `ASSET_LICENSE.md`. ZipZipPipe character/AI derivatives remain CC BY-NC-SA 4.0, separate from AGPL-3.0-only code. Status: **candidate_unreviewed**. No private CAH repository access, release API calls, tags, or existing v0.0.2 release modifications were performed. Binary archiving does not complete GF-02 or M1.
+
+Each of the five immutable-commit `raw.githubusercontent.com` file URLs was also downloaded separately: HTTP 200, GIF magic and full SHA-256 passed for every file. GitHub page metadata reports repository_public=true.

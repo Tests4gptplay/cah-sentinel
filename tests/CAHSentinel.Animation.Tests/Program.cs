@@ -99,6 +99,14 @@ internal static class Program
             player.Stop();
             player.SwitchState(new(PetMood.Running), root, false, () => throw new InvalidDataException());
             Check(displayed is null, "bad GIF and bad PNG use placeholder");
+            var oversized = Path.Combine(root, "oversized.gif");
+            File.WriteAllBytes(oversized, [71, 73, 70, 56, 57, 97, 1, 4, 1, 0, 0, 0, 0]);
+            try { GifClip.Load(oversized); throw new Exception("Oversized GIF accepted"); }
+            catch (InvalidDataException ex) { Check(ex.Message == "GIF canvas limit.", "canvas rejected before native decode"); }
+            var truncated = Path.Combine(root, "truncated.gif");
+            File.WriteAllBytes(truncated, File.ReadAllBytes(fixture)[..^1]);
+            try { GifClip.Load(truncated); throw new Exception("Truncated GIF accepted"); }
+            catch (EndOfStreamException) { Check(true, "truncated sub-block/trailer rejected before native decode"); }
         }
         finally { Directory.Delete(root, recursive: true); }
         Console.WriteLine("CAH Sentinel Windows GIF tests PASSED: " + _checks);
