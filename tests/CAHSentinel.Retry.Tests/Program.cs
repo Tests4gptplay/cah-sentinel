@@ -1,5 +1,5 @@
 using CAHSentinel.Core;
-foreach(var failures in new[] { 0, 1, 2, 3 })
+foreach(var failures in new[] { 0, 1, 2, 3, 4, 5 })
 {
     int calls = 0; bool failed = false;
     try
@@ -10,7 +10,7 @@ foreach(var failures in new[] { 0, 1, 2, 3 })
         if(value != 42) throw new Exception("Wrong result");
     }
     catch(InvalidOperationException) { failed = true; }
-    if(calls != Math.Min(failures + 1, 3) || failed != (failures == 3)) throw new Exception("Wrong retry threshold");
+    if(calls != Math.Min(failures + 1, 5) || failed != (failures == 5)) throw new Exception("Wrong retry threshold");
     Console.WriteLine($"PASS failures={failures} attempts={calls} terminal_error={failed}");
 }
 using(var cancel = new CancellationTokenSource())

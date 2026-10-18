@@ -1,6 +1,6 @@
 # CAH Sentinel
 
-**Version 0.0.3 — Local-only Windows companion (experimental).**
+**Version 0.0.4 — Local-only Windows companion (experimental).**
 
 Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It does not need a GitHub account, repository URL, Personal Access Token, or private-repository credentials.** It never fetches from the network and never modifies CAH state. Code is [AGPL-3.0-only](LICENSE); independent character artwork has separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms.
 

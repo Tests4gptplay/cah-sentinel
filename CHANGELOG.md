@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4 - 2026-10-19
+
+- Keep the local FETCH_HEAD snapshot source; increase silent read attempts from 3 to 5, ten seconds apart (40 seconds of retry waits before reporting persistent failure). Each read may take additional time. Cancellation and notification deduplication are unchanged.
+
+
 ## 0.0.3 - 2026-10-18
 
 - Adopt CAH brand assets for the Windows executable and notification-area (tray) icon. The multi-resolution ICO is assembled losslessly from the source 16/24/32/48/128 PNGs; the tray icon is embedded for single-file publishing.

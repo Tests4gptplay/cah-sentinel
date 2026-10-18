@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>CAHSentinel</AssemblyName>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
     <ApplicationIcon>../../assets/brand/icons/cah-sentinel.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
