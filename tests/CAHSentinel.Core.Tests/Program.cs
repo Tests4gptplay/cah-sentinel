@@ -100,5 +100,16 @@ static async Task TestLocalReaderAsync()
         try { await reader.ReadAsync("https://example.com/private/repo.git"); throw new Exception("Network URL accepted as local root"); }
         catch (ArgumentException) { }
     }
-    finally { try { Directory.Delete(temp, recursive: true); } catch (IOException) { } }
+    finally
+    {
+        try
+        {
+            // Git for Windows may mark pack/object files readonly; normalize only the disposable fixture.
+            foreach (var file in Directory.EnumerateFiles(temp, "*", SearchOption.AllDirectories))
+                File.SetAttributes(file, FileAttributes.Normal);
+            Directory.Delete(temp, recursive: true);
+        }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
+    }
 }
