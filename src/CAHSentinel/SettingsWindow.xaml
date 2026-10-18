@@ -1,7 +1,7 @@
 <Window x:Class="CAHSentinel.SettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="CAH Sentinel · 本地设置" Width="580" Height="350"
+    Title="CAH Sentinel · 本地设置" Width="580" Height="460"
     WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#F7F5FC">
   <Grid Margin="20">
     <StackPanel>
@@ -17,6 +17,13 @@
         <Button Content="浏览…" Width="75" Padding="6" Margin="8,0,0,0"
             Grid.Column="1" Click="OnBrowse"/>
       </Grid>
+      <TextBlock Text="本地 GIF 素材包（可选；不自动下载或打包）"/>
+      <Grid Margin="0,4,0,10">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <TextBox x:Name="SpritePackField" Padding="6"/>
+        <Button Content="浏览…" Width="75" Margin="8,0,0,0" Grid.Column="1" Click="OnBrowsePack"/>
+      </Grid>
+      <CheckBox x:Name="ReducedMotionField" Content="减少动态（只显示首帧）" Margin="0,0,0,10"/>
       <TextBlock Text="Foreground 对话链接（可选；只保存在本机）"/>
       <TextBox x:Name="ForegroundField" Margin="0,4,0,13" Padding="6"/>
       <StackPanel Orientation="Horizontal" Margin="0,3,0,6">

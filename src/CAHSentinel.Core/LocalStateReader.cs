@@ -94,6 +94,7 @@ public sealed class LocalStateReader
         catch (OperationCanceledException)
         {
             try { if (!process.HasExited) process.Kill(entireProcessTree: true); } catch { }
+            ct.ThrowIfCancellationRequested();
             throw new TimeoutException("Local Git read timed out.");
         }
         var output = await stdout;

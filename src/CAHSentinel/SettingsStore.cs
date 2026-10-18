@@ -6,6 +6,8 @@ namespace CAHSentinel;
 public sealed class SentinelSettings
 {
     public string LocalRepoPath { get; set; } = "";
+    public string SpritePackPath { get; set; } = "";
+    public bool ReducedMotion { get; set; }
     public string ForegroundUrl { get; set; } = "";
     public int PollSeconds { get; set; } = 30;
     public bool Monitoring { get; set; } = true;

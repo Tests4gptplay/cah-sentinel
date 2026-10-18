@@ -50,7 +50,7 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 
 **Two milestones:** first deliver five genuinely playable GIF states (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), then expand the other six. [Revised GIF-first plan v0.2](docs/animation/GIF_ANIMATION_PLAN.md) and [GF-00–GF-10 execution backlog](docs/animation/GIF_ANIMATION_BACKLOG.json). Animation is a separate resource, not a complex rigging engine. The shipped v0.0.2 still uses static sprites, and unreviewed derivative art is not publicly bundled.
 
-**Five candidate GIFs now exist** (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), rechecked at a 420×420 canvas with stable figure scale. WAIT_USER v0.3 uses one consistent source image to eliminate inter-pose jumps. See the [v0.4 SHA-256 inventory](assets/animation-candidates/manifest.v0.4.json), [QA audit](docs/animation/GIF_QA_v0.4.md), and [offline binary importer](tools/gif/import_from_archive.py). The full verified ZIP is stored in the owner's ChatGPT Library; **Git currently contains only manifests/tooling, not the actual GIF binaries**. The shipped v0.0.2 application still uses static poses.
+**Five candidate GIFs now exist** (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), rechecked at a 420×420 canvas with stable figure scale. WAIT_USER v0.3 uses one consistent source image to eliminate inter-pose jumps. See the [v0.4 SHA-256 inventory](assets/animation-candidates/manifest.v0.4.json), [QA audit](docs/animation/GIF_QA_v0.4.md), and [offline binary importer](tools/gif/import_from_archive.py). The full verified ZIP is stored in the owner's ChatGPT Library; **All five real GIF binaries are now archived in [assets/animation-candidates/states](assets/animation-candidates/states), with ZipZipPipe attribution and CC BY-NC-SA 4.0 notices**. The shipped v0.0.2 application still uses static poses.
 
 ## Development
 
@@ -66,3 +66,5 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 ## Licenses
 
 Original CAH Sentinel code and documentation are [AGPL-3.0-only](LICENSE). ZipZipPipe character art and related derivatives retain separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms. No third-party character art is committed in the source repository.
+
+Development GIF player: [GF-02 usage and validation](docs/animation/GF02_PLAYER.md). It loads an optional user-selected local pack; current source changes do not modify the published v0.0.2 Release or bundle candidate artwork into executables.

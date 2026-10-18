@@ -132,7 +132,7 @@
       "id": "GF-02",
       "title": "最小 WPF GIF 播放器和状态切换",
       "milestone": "M1",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "GF-01"
       ],
@@ -143,9 +143,14 @@
         "local-only/paused/urgent-preemption tests"
       ],
       "acceptance": "Compiles and correctly displays test animations without CAH changes, with graceful static fallback.",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "docs/animation/GF02_PLAYER.md",
+        "tests/CAHSentinel.Animation.Tests/Program.cs",
+        "tests/CAHSentinel.Core.Tests/Program.cs"
+      ],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "notes": "Implementation and cross-platform regression available; Windows CI execution, real-PC playback and owner review tracked separately. GF-00/GF-01/art approval and M1 remain incomplete."
     },
     {
       "id": "GF-03",
@@ -348,6 +353,8 @@
     "archive_sha256_verified": true,
     "attribution": "assets/animation-candidates/ATTRIBUTION.md",
     "license": "assets/animation-candidates/LICENSE-ART.md",
-    "note": "Binary import is independent of GF-02 implementation and M1 visual/runtime acceptance."
+    "note": "Binary import is independent of GF-02 implementation and M1 visual/runtime acceptance.",
+    "remote_verified_commit": "301b497b521d528307f0082364352d427f7437f1",
+    "evidence": "docs/animation/GIF_BINARY_VERIFICATION_20261018.md"
   }
 }

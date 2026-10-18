@@ -12,6 +12,10 @@ public partial class PetWindow : Window
 {
     private readonly LocalStateReader _reader = new();
     private readonly SpriteCatalog _sprites = new();
+    private readonly AnimationSelection _selection = new();
+    private readonly GifPlayer _player;
+    private CancellationTokenSource? _pollCancellation;
+    private int _generation;
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(30) };
     private readonly WinForms.NotifyIcon _tray;
     private readonly WinForms.ToolStripMenuItem _pauseItem;
@@ -25,6 +29,10 @@ public partial class PetWindow : Window
     public PetWindow()
     {
         InitializeComponent();
+        _player = new GifPlayer(image => {
+            PetImage.Source = image;
+            Placeholder.Visibility = image is null ? Visibility.Visible : Visibility.Collapsed;
+        });
         _tray = new WinForms.NotifyIcon {
             Visible = true, Icon = System.Drawing.SystemIcons.Application, Text = "CAH Sentinel"
         };
@@ -46,7 +54,7 @@ public partial class PetWindow : Window
         _timer.Tick += async (_, _) => await PollAsync();
         StateLabel.Text = "INIT";
         TaskLabel.Text = "等待选择 CAH 本地目录";
-        Render(PetMood.Idle, "等待配置");
+        Render(_settings.Monitoring ? PetMood.Idle : PetMood.Paused, "等待配置");
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -55,30 +63,43 @@ public partial class PetWindow : Window
         Top = SystemParameters.WorkArea.Bottom - Height - 12;
         Visibility = _settings.ShowPet ? Visibility.Visible : Visibility.Hidden;
         UpdateMenu();
-        _timer.Start();
+        if (_settings.Monitoring) _timer.Start();
         if (string.IsNullOrWhiteSpace(_settings.LocalRepoPath))
-            Dispatcher.BeginInvoke(new Action(OpenSettings));
+            _ = Dispatcher.BeginInvoke(new Action(OpenSettings));
         else
             await PollAsync();
     }
 
     private async Task PollAsync()
     {
-        if (_polling || !_settings.Monitoring || string.IsNullOrWhiteSpace(_settings.LocalRepoPath))
+        if (_exiting || _polling || !_settings.Monitoring || string.IsNullOrWhiteSpace(_settings.LocalRepoPath))
             return;
         _polling = true;
+        var generation = _generation;
+        using var cancellation = new CancellationTokenSource();
+        _pollCancellation = cancellation;
         try
         {
             // Read only local Git objects already refreshed by CAH; no network fetch or authentication.
-            _current = await _reader.ReadAsync(_settings.LocalRepoPath);
-            if (!_settings.Monitoring) return;
+            var snapshot = await _reader.ReadAsync(_settings.LocalRepoPath, cancellation.Token);
+            if (_exiting || !_settings.Monitoring || generation != _generation) return;
+            _current = snapshot;
             _offlineAlerted = false;
             var focus = _current.PriorityTask;
-            Render(focus?.Mood ?? PetMood.Idle, focus?.Title ?? "当前没有 Task Cell");
+            var animation = _selection.Observe(_current, _seen);
+            SettingsStore.SaveSeen(_seen);
+            var displayTask = animation.PlayOnce
+                ? _current.Tasks.First(t => t.EventKey == animation.EventKey) : focus;
+            Render(animation.Mood, displayTask?.Title ?? "当前没有 Task Cell", animation);
+            if (_settings.Notifications && animation.PlayOnce)
+            {
+                var completed = _current.Tasks.First(t => t.EventKey == animation.EventKey);
+                ShowNotification("CAH 父任务已验收", completed.Title + " · 查看交付", false);
+            }
             foreach (var task in _current.Tasks)
             {
                 if (!_settings.Notifications) continue;
-                var urgent = task.Mood is PetMood.WaitUser or PetMood.Blocked or PetMood.Error or PetMood.Complete;
+                var urgent = task.Mood is PetMood.WaitUser or PetMood.Blocked or PetMood.Error;
                 if (!urgent || _seen.Contains(task.EventKey)) continue;
                 var (caption, text) = task.Mood switch
                 {
@@ -94,6 +115,8 @@ public partial class PetWindow : Window
         }
         catch (Exception ex)
         {
+            if (_exiting || !_settings.Monitoring || generation != _generation || cancellation.IsCancellationRequested) return;
+            _selection.Reset(); // Reconnection establishes a new historical completion baseline.
             Render(PetMood.Disconnected, ex is StaleLocalStateException ? "本地状态过期" : "本地状态读取失败");
             if (_settings.Notifications && !_offlineAlerted)
             {
@@ -103,10 +126,15 @@ public partial class PetWindow : Window
                 _offlineAlerted = true;
             }
         }
-        finally { _polling = false; }
+        finally
+        {
+            _pollCancellation = null;
+            _polling = false;
+            if (!_exiting && _settings.Monitoring && generation != _generation) _ = PollAsync();
+        }
     }
 
-    private void Render(PetMood mood, string task)
+    private void Render(PetMood mood, string task, AnimationIntent? animation = null)
     {
         var name = mood switch
         {
@@ -124,20 +152,13 @@ public partial class PetWindow : Window
         TaskLabel.Text = task;
         _tray.Text = ("CAH Sentinel · " + name).Length > 63
             ? "CAH Sentinel" : "CAH Sentinel · " + name;
-        try
-        {
-            PetImage.Source = _sprites.ForMood(mood);
-            Placeholder.Visibility = PetImage.Source is null ? Visibility.Visible : Visibility.Collapsed;
-        }
-        catch (Exception)
-        {
-            PetImage.Source = null;
-            Placeholder.Visibility = Visibility.Visible;
-        }
+        _player.SwitchState(animation ?? new AnimationIntent(mood), _settings.SpritePackPath,
+            _settings.ReducedMotion, () => _sprites.ForMood(mood));
     }
 
     private void ShowNotification(string title, string detail, bool important)
     {
+        if (!_settings.Monitoring || _exiting) return;
         _tray.BalloonTipTitle = title;
         _tray.BalloonTipText = detail.Length > 230 ? detail[..227] + "..." : detail;
         _tray.BalloonTipIcon = important ? WinForms.ToolTipIcon.Warning : WinForms.ToolTipIcon.Info;
@@ -148,6 +169,12 @@ public partial class PetWindow : Window
     {
         var dialog = new SettingsWindow(_settings) { Topmost = true };
         if (dialog.ShowDialog() != true) return;
+        var changedRepo = !string.Equals(_settings.LocalRepoPath, dialog.Value.LocalRepoPath,
+            StringComparison.OrdinalIgnoreCase);
+        _generation++;
+        _pollCancellation?.Cancel();
+        if (changedRepo) _selection.Reset();
+        _player.Stop();
         _settings = dialog.Value;
         SettingsStore.Save(_settings);
         Visibility = _settings.ShowPet ? Visibility.Visible : Visibility.Hidden;
@@ -158,15 +185,18 @@ public partial class PetWindow : Window
 
     private void ToggleMonitoring()
     {
+        _generation++;
+        _pollCancellation?.Cancel();
         _settings.Monitoring = !_settings.Monitoring;
         SettingsStore.Save(_settings);
         UpdateMenu();
         if (_settings.Monitoring) _ = PollAsync();
-        else Render(PetMood.Paused, "已停止同步与通知");
+        else { _selection.Reset(); Render(PetMood.Paused, "已停止同步与通知"); }
     }
 
     private void UpdateMenu()
     {
+        if (_settings.Monitoring) _timer.Start(); else _timer.Stop();
         _pauseItem.Text = _settings.Monitoring ? "暂停监控（静默）" : "恢复监控";
     }
 
@@ -194,6 +224,9 @@ public partial class PetWindow : Window
     private void Quit()
     {
         _exiting = true;
+        _generation++;
+        _pollCancellation?.Cancel();
+        _player.Dispose();
         _timer.Stop();
         _tray.Visible = false;
         _tray.Dispose();

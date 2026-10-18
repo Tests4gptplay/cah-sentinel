@@ -40,6 +40,67 @@ Check(a.EventKey != b.EventKey, "new question triggers notification");
 var list = new TaskSnapshot("abc", DateTimeOffset.UtcNow,
     [Parse("RUNNING", "ACTIVE", ""), a, Parse("ERROR", "ACTIVE", "")]);
 Check(list.PriorityTask?.Mood == PetMood.WaitUser, "urgent alert priority");
+// Elapsed-time clock: exact boundary, delayed dispatcher, loop and forced once.
+var clock = new AnimationTimeline([TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(250)]);
+clock.PlayLoop();
+Check(clock.Advance(TimeSpan.FromMilliseconds(99)) == 0, "first frame delay");
+Check(clock.Advance(TimeSpan.FromMilliseconds(100)) == 1, "exact frame boundary");
+Check(clock.Advance(TimeSpan.FromMilliseconds(750)) == 0, "late dispatcher catches up across loops");
+clock.PlayOnce();
+Check(clock.Advance(TimeSpan.FromMilliseconds(349)) == 1 && clock.IsPlaying, "once final hold");
+Check(clock.Advance(TimeSpan.FromMilliseconds(350)) == 1 && !clock.IsPlaying, "once cannot loop");
+clock.Stop();
+Check(!clock.IsPlaying, "stop clock");
+
+TaskSnapshot Snapshot(params TaskView[] items) => new("test", DateTimeOffset.UtcNow, items);
+var selector = new AnimationSelection();
+var seen = new HashSet<string>();
+var accepted = Parse("COMPLETE_ACCEPTED", "DONE", "");
+var running = Parse("RUNNING", "ACTIVE", "");
+Check(!selector.Observe(Snapshot(accepted), seen).PlayOnce, "history never celebrates at startup");
+Check(!selector.Observe(Snapshot(accepted), seen).PlayOnce, "history stays deduplicated");
+selector.Reset(); seen.Clear();
+selector.Observe(Snapshot(running), seen);
+Check(selector.Observe(Snapshot(accepted), seen).PlayOnce, "new parent acceptance celebrates once");
+Check(!selector.Observe(Snapshot(accepted), seen).PlayOnce, "poll cannot restart celebration");
+selector.Reset(); seen.Clear(); selector.Observe(Snapshot(running), seen);
+Check(!selector.Observe(Snapshot(Parse("DONE", "DONE", "")), seen).PlayOnce, "generic DONE is not acceptance");
+Check(!selector.Observe(Snapshot(Parse("SUCCESS", "DONE", "")), seen).PlayOnce, "generic SUCCESS is not acceptance");
+selector.Reset(); seen.Clear(); selector.Observe(Snapshot(running), seen);
+var urgent = a with { Id = "urgent", EventKey = "urgent-wait" };
+Check(selector.Observe(Snapshot(accepted, urgent), seen).Mood == PetMood.WaitUser, "WAIT_USER preempts COMPLETE");
+Check(!selector.Observe(Snapshot(accepted), seen).PlayOnce, "preempted completion never replays later");
+Check(selector.Observe(Snapshot(urgent), seen).Mood == PetMood.WaitUser, "wait remains until durable state clears");
+Check(selector.Observe(Snapshot(Parse("ERROR", "ERROR", "")), seen).Mood == PetMood.Error, "error preempts");
+Check(selector.Observe(Snapshot(Parse("ERROR", "ERROR", "")), seen).Mood == PetMood.Error, "error cannot self-recover");
+selector.Reset();
+Check(!selector.Observe(Snapshot(accepted), new HashSet<string>()).PlayOnce, "resume or reconnect rebaselines");
+
+var pack = Path.Combine(Path.GetTempPath(), "sentinel-pack-" + Guid.NewGuid().ToString("N"));
+Directory.CreateDirectory(Path.Combine(pack, "states", "idle"));
+try
+{
+    var file = Path.Combine(pack, "states", "idle", "loop.gif");
+    File.WriteAllText(file, "synthetic path lookup only");
+    Check(AnimationPack.Resolve(pack, "states/idle/loop.gif") == file, "offline pack resolution");
+    foreach (var unsafePath in new[] { "../secret.gif", "/absolute.gif", "states/../secret.gif",
+        "https://example.com/image.gif", "states\\idle\\loop.gif", "states//idle/loop.gif", "states/idle/loop.gif:stream" })
+        Check(AnimationPack.Resolve(pack, unsafePath) is null, "unsafe pack path rejected: " + unsafePath);
+    Check(AnimationPack.Resolve("https://example.com", "loop.gif") is null, "remote pack rejected");
+    Check(AnimationPack.Resolve(@"\\server\share", "loop.gif") is null, "UNC pack rejected");
+    Check(AnimationPack.Resolve(pack, "states/error/missing.gif") is null, "missing GIF fallback");
+    Check(AnimationPack.RelativePath(PetMood.Complete) == "states/complete/once.gif", "complete uses once media");
+    Check(AnimationPack.RelativePath(PetMood.Paused) is null, "pause has static fallback");
+    Check(AnimationPack.RelativePath(PetMood.Disconnected) is null, "stale has static fallback");
+    if (!OperatingSystem.IsWindows())
+    {
+        var link = Path.Combine(pack, "states", "link");
+        Directory.CreateSymbolicLink(link, Path.Combine(pack, "states", "idle"));
+        Check(AnimationPack.Resolve(pack, "states/link/loop.gif") is null, "symlink pack escape rejected");
+        Directory.Delete(link);
+    }
+}
+finally { Directory.Delete(pack, recursive: true); }
 Console.WriteLine("CAH Sentinel core tests PASSED: " + tests);
 
 await TestLocalReaderAsync();

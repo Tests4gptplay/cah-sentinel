@@ -4,7 +4,7 @@
 >
 > Decision: pre-render a small GIF per CAH presentation state, then let a minimal WPF player switch between local GIFs. **No skeletal animation engine, no CAH code changes, no network monitoring, no private repository link or authentication.**
 
-> **M1 media inventory update (2026-10-18):** Five technical GIF candidates now exist in a separate owner-held ZIP: IDLE v0.1, WORKING v0.1, WAIT_USER v0.3 (same source image every frame), ERROR v0.3 and COMPLETE v0.2 (one-shot). [SHA-256 manifest](../../assets/animation-candidates/manifest.v0.4.json) / [quality audit](GIF_QA_v0.4.md). **The Git repository has not yet received the binary GIFs; the Windows v0.0.2 app still does not play them.** User aesthetic approval and local UI integration are separate gates.
+> **M1 media inventory update (2026-10-18):** Five technical GIF candidates now exist in a separate owner-held ZIP: IDLE v0.1, WORKING v0.1, WAIT_USER v0.3 (same source image every frame), ERROR v0.3 and COMPLETE v0.2 (one-shot). [SHA-256 manifest](../../assets/animation-candidates/manifest.v0.4.json) / [quality audit](GIF_QA_v0.4.md). **The five binary GIFs are now archived in Git ([verification](GIF_BINARY_VERIFICATION_20261018.md)); the shipped Windows v0.0.2 app still does not play them. GF-02 development implementation and test gates are tracked in [GF02_PLAYER.md](GF02_PLAYER.md).** User aesthetic approval and local UI integration are separate gates.
 
 ## What was corrected
 

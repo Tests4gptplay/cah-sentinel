@@ -19,3 +19,7 @@ All GIF canvases are 420×420. Different states have different natural silhouett
 **What is still incomplete:** the original material 20+3+9 inventory is not fully accepted (AS-00/GF-00 in progress); GIFs are not yet played by the published WPF app, there is no verified real Windows GUI video; candidate binaries remain in the separate ZIP/Library and are **not in public Git**; no owner aesthetic acceptance. Planned next engineering step after getting the actual binary into a Git checkout: GF-01/02 complete tested GIF assembler/playback switcher, then GF-07 M1 app integration.
 
 **Original artist/licensing:** ZipZipPipe (https://space.bilibili.com/4168597/dynamic), artwork and AI-generated derivatives CC BY-NC-SA 4.0; original source code AGPL-3.0-only. Preserve separate attribution and derivative labeling. No automatic bundling into the public executable.
+
+## Subsequent Git archive / player engineering update
+
+The historical inventory-only observations above are superseded for binary availability by [remote blob verification](GIF_BINARY_VERIFICATION_20261018.md): all five actual GIFs are now archived in public Git. [GF-02](GF02_PLAYER.md) adds a development player and tests; the original audit does not claim runtime or aesthetic acceptance, and the published v0.0.2 is unchanged.
