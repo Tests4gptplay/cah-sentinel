@@ -4,6 +4,8 @@
 
 > **候选素材更新（2026-10-18）：** 用户要求适当增加关键帧后，AS-01/02/03 已提前生成了 **3+3+3 共 9 张未验收 PNG 候选**，并以独立 ZIP 保存至所有者的 ChatGPT Library。Git 中保存[候选清单和文件校验值](../../assets/sprites/candidates/manifest.generated-9.v0.2.json)，**尚未提交 PNG 二进制**；每一张仍需 AS-00 的透明度、尺寸、锚点、角色连续性复核和用户正式审美验收。AS-00 仍是下一步，v0.0.1 发行版未改动。以上生成属于先行收集候选，绝不视为 AS-01/02/03 已完成。
 
+> **动画播放工作流：** [GIF 优先方案](../animation/GIF_ANIMATION_PLAN.md)与 [GF-00～GF-08 执行清单](../animation/GIF_ANIMATION_BACKLOG.json)负责将 AS 已验收的姿势制作成状态专用动图，并由 Sentinel 本地只读切换。AS 阶段仍负责角色和版权验收。
+
 ## 一、目标与边界
 
 构建一套 **可独立加载、可替换、可验证授权** 的 GPT 龙娘桌宠动作包。CAH 本身已经有 Planner / Worker / Helper / Runner 状态；Sentinel 仅将已核验的机器状态投影为桌宠的 *表现状态*，不得创造第二套调度器或向 CAH 回写状态。

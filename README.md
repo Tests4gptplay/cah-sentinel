@@ -46,6 +46,10 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 - The art pack currently uses temporary equal-width sheet slicing. New AI-derived candidate animations are not accepted or integrated yet; see [art generation plan](docs/art/ACTION_GENERATION_PLAN.md) and [backlog](docs/art/ACTION_BACKLOG.json).
 - The binary is Windows CI-built; user-machine rendering, antivirus behavior and first-run UX require real device verification.
 
+## GIF-first animation roadmap
+
+State-specific, replaceable GIF loops are the first animation strategy; no heavy rigging engine. See [animation plan](docs/animation/GIF_ANIMATION_PLAN.md) and [execution backlog](docs/animation/GIF_ANIMATION_BACKLOG.json). Current v0.0.2 still shows static poses, and unapproved third-party derivative art is not bundled.
+
 ## Development
 
 - `src/CAHSentinel.Core/`: deterministic state projector and local-only Git reader.

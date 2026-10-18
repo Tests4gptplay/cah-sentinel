@@ -1,0 +1,226 @@
+{
+  "schema": "cah-sentinel.gif-animation-backlog.v0.1",
+  "plan_ref": "docs/animation/GIF_ANIMATION_PLAN.md",
+  "art_plan_ref": "docs/art/ACTION_GENERATION_PLAN.md",
+  "art_progress_ref": "docs/art/ACTION_BACKLOG.json",
+  "base_app": "v0.0.2 local-only still image release; unchanged",
+  "status": "planning",
+  "next_step": "GF-00",
+  "source_inventory": {
+    "original_user_poses": 20,
+    "generated_unreviewed": 12,
+    "accepted_gif_clips": 0,
+    "generated_refs": [
+      "assets/sprites/candidates/manifest.v0.1.json",
+      "assets/sprites/candidates/manifest.generated-9.v0.2.json"
+    ]
+  },
+  "licensing": {
+    "source_code": "AGPL-3.0-only",
+    "character_art": "CC BY-NC-SA 4.0",
+    "creator": "ZipZipPipe",
+    "source": "https://space.bilibili.com/4168597/dynamic",
+    "art_not_auto_committed_or_distributed": true
+  },
+  "architecture": {
+    "source": "local CAH only",
+    "remote_fetch": false,
+    "media_format": "GIF-first + source PNG retained",
+    "gif_states": [
+      "IDLE",
+      "THINKING",
+      "WORKING",
+      "AUTO_WAIT",
+      "RECOVERING",
+      "WAIT_USER",
+      "BLOCKED",
+      "ERROR",
+      "COMPLETE",
+      "PAUSED",
+      "DISCONNECTED"
+    ],
+    "clip_modes": [
+      "entry_then_loop",
+      "loop",
+      "once",
+      "static_fallback"
+    ],
+    "poll_and_animation_clocks_independent": true,
+    "parent_completion_required": true,
+    "urgent_preemption": true
+  },
+  "stages": [
+    {
+      "id": "GF-00",
+      "title": "32 姿势素材审查及锚点对齐",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-00"
+      ],
+      "depends_on": [],
+      "deliverables": [
+        "asset index 20+3+9",
+        "crop/alpha/anchor contact sheets",
+        "separate rights and provenance",
+        "candidate image sign-off"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-01",
+      "title": "离线 Pillow GIF 制作与格式验证",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-00"
+      ],
+      "depends_on": [
+        "GF-00"
+      ],
+      "deliverables": [
+        "non-destructive GIF builder",
+        "frame timing/palette/alpha tests",
+        "192/256px GIF QA previews"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-02",
+      "title": "WPF 最小 GIF 播放器与状态切换",
+      "status": "not_started",
+      "required_art_stages": [],
+      "depends_on": [
+        "GF-01"
+      ],
+      "deliverables": [
+        "play-once/loop/stop/fallback",
+        "preemption by user help/error/pause",
+        "no-CAH-write/no-network proof"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-03",
+      "title": "WAIT_USER 举 NEED HELP 牌 GIF",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-01"
+      ],
+      "depends_on": [
+        "GF-02"
+      ],
+      "deliverables": [
+        "wait_user entry and loop GIF",
+        "legibility and hold-state QA",
+        "user visual sign-off"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-04",
+      "title": "趴卧 BLOCKED/ERROR/RECOVERING GIF",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-02"
+      ],
+      "depends_on": [
+        "GF-03"
+      ],
+      "deliverables": [
+        "blocked/prone loop",
+        "error/prone loop",
+        "recovery loop",
+        "clear visual distinction"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-05",
+      "title": "COMPLETE 飞行举√牌一次性 GIF",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-03"
+      ],
+      "depends_on": [
+        "GF-04"
+      ],
+      "deliverables": [
+        "takeoff-bank-hover-land clip",
+        "terminal-only event tests",
+        "preemptible, once-only celebration"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-06",
+      "title": "常态、暂停和断线 GIF 覆盖",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-04",
+        "AS-05",
+        "AS-06"
+      ],
+      "depends_on": [
+        "GF-05"
+      ],
+      "deliverables": [
+        "idle/working/thinking/wait clips",
+        "paused/disconnected clips",
+        "static fallback"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-07",
+      "title": "动画、通知、本地状态端到端测试",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-07"
+      ],
+      "depends_on": [
+        "GF-06"
+      ],
+      "deliverables": [
+        "60s Windows playback QA",
+        "128/192/256 previews",
+        "status priority/dedup/stale tests"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    },
+    {
+      "id": "GF-08",
+      "title": "独立动画包、版权验收与发布",
+      "status": "not_started",
+      "required_art_stages": [
+        "AS-08"
+      ],
+      "depends_on": [
+        "GF-07"
+      ],
+      "deliverables": [
+        "pack.json + individual hashes",
+        "ZipZipPipe CC notice",
+        "user approval",
+        "rollback plan"
+      ],
+      "review_required": true,
+      "evidence_refs": [],
+      "user_accepted": false
+    }
+  ]
+}
