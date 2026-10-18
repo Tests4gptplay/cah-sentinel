@@ -52,6 +52,7 @@ public static class StateProjection
             "DONE" or "SUCCESS" or "COMPLETE_ACCEPTED" => PetMood.Complete,
             _ when activity == "WAIT_USER" || wait == "NEED_USER" => PetMood.WaitUser,
             _ when wait == "WAIT_HELPER" || wait == "WAIT_WORKER_HELPER" => PetMood.WaitHelper,
+            _ when activity is "ACTIVE" or "WAKING" or "REPLANNING" => PetMood.Running,
             _ when status == "PARKED_WAIT_EVENT" && activity == "PARKED_WAIT_EVENT" => PetMood.Running,
             _ when status == "RUNNING" || status == "ACTIVE" || status == "NEW" => PetMood.Running,
             _ => PetMood.Idle

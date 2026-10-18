@@ -28,6 +28,9 @@ Check(a.Mood == PetMood.WaitUser, "WAIT_USER mapped");
 Check(a.Question.Contains("antivirus", StringComparison.Ordinal), "question parsed");
 Check(a.EventKey.Contains("state/planner_turns/x/outcome.json"), "stable event key");
 Check(Parse("PARKED_WAIT_EVENT", "PARKED_WAIT_EVENT", "WAIT_HELPER").Mood == PetMood.WaitHelper, "helper");
+foreach(var activity in new[] { "ACTIVE", "WAKING", "REPLANNING" })
+    Check(Parse("PARKED_WAIT_EVENT", activity, "").Mood == PetMood.Running, "active Planner while parent parked: " + activity);
+Check(Parse("PARKED_WAIT_EVENT", "WAKING", "NEED_USER").Mood == PetMood.WaitUser, "user wait takes precedence");
 Check(Parse("RUNNING", "WAKING", "").Mood == PetMood.Running, "running");
 Check(Parse("DONE", "DONE", "").Mood == PetMood.Complete, "completed");
 Check(Parse("ERROR", "ERROR", "").Mood == PetMood.Error, "error");
