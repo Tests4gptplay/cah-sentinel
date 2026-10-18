@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.5 - 2026-10-19
+
+- Match CAH's Planner semantics: standalone `WAIT` in the Task Cell and legacy Planner `outcome=WAIT` / `turn_signal=wait` are displayed as `NEED_USER`, using the existing WaitUser pet state and Windows notification. Use `semantic.wait_condition` as the question only when an old WAIT does not have `semantic.question`.
+- Keep actual internal `WAIT_HELPER`, `WAIT_WORKER_HELPER`, and other executor/result wait kinds distinct. A new Planner turn already in progress is not reclassified solely because an older decision said WAIT.
+- Sentinel remains local-only and read-only: no CAH state mutations, Git fetch, authentication or runtime/Helper changes.
+- Upgrade from 0.0.4: exit Sentinel via tray before replacing the EXE, preserve `settings.json`, `seen-alerts.json` and any separately installed GIF/sprite pack; run the new self-contained Windows x64 package. Installed .NET is not required. Artifact SHA-256 checksum is provided.
+
+
 ## 0.0.4 - 2026-10-19
 
 - Updated README and installation instructions for current Actions downloads, portable configuration, preserving settings during upgrades, optional GIF packs, and the distinction between artifact-download login and credential-free runtime. The old v0.0.2 release is not replaced.

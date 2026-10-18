@@ -27,6 +27,16 @@ var a = Parse("WAIT_USER", "WAIT_USER", "NEED_USER");
 Check(a.Mood == PetMood.WaitUser, "WAIT_USER mapped");
 Check(a.Question.Contains("antivirus", StringComparison.Ordinal), "question parsed");
 Check(a.EventKey.Contains("state/planner_turns/x/outcome.json"), "stable event key");
+Check(Parse("WAIT", "IDLE", "").Mood == PetMood.WaitUser, "legacy WAIT status maps to NEED_USER");
+Check(Parse("PARKED_WAIT_EVENT", "WAIT", "").Mood == PetMood.WaitUser, "legacy WAIT activity maps to NEED_USER");
+Check(Parse("PARKED_WAIT_EVENT", "PARKED_WAIT_EVENT", "WAIT").Mood == PetMood.WaitUser, "legacy WAIT kind maps to NEED_USER");
+const string legacyWaitOutcome = """{"outcome":"WAIT","turn_signal":"wait","semantic":{"wait_condition":"Please choose the next step."}}""";
+const string parkedCell = """{"status":"PARKED_WAIT_EVENT","planner_control":{"activity":"PARKED_WAIT_EVENT","wait":null,"last_decision":{"decision_ref":"state/planner_turns/legacy/outcome.json"}}}""";
+var legacy = StateProjection.Project("legacy", parkedCell, title, legacyWaitOutcome);
+Check(legacy.Mood == PetMood.WaitUser, "Planner WAIT outcome maps to NEED_USER");
+Check(legacy.Question == "Please choose the next step.", "legacy WAIT condition appears as user question");
+const string helperCell = """{"status":"PARKED_WAIT_EVENT","planner_control":{"activity":"PARKED_WAIT_EVENT","wait":{"kind":"WAIT_HELPER"}}}""";
+Check(StateProjection.Project("helper", helperCell, title, legacyWaitOutcome).Mood == PetMood.WaitHelper, "WAIT_HELPER remains distinct");
 Check(Parse("PARKED_WAIT_EVENT", "PARKED_WAIT_EVENT", "WAIT_HELPER").Mood == PetMood.WaitHelper, "helper");
 foreach(var activity in new[] { "ACTIVE", "WAKING", "REPLANNING" })
     Check(Parse("PARKED_WAIT_EVENT", activity, "").Mood == PetMood.Running, "active Planner while parent parked: " + activity);

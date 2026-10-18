@@ -33,3 +33,50 @@ jobs:
           name: CAH-Sentinel-development-win-x64
           path: dist/CAH-Sentinel-development-win-x64.zip
           if-no-files-found: error
+  release:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release: v') }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: CAH-Sentinel-development-win-x64
+          path: dist/release
+      - name: Create versioned Release from tested Windows artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          first_line="${RELEASE_MESSAGE%%$'\n'*}"
+          if [[ ! "$first_line" =~ ^release:\ v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "Invalid release commit message"; exit 1
+          fi
+          version="${BASH_REMATCH[1]}"
+          tag="v${version}"
+          project_version="$(sed -nE 's#.*<Version>([^<]+)</Version>.*#\1#p' src/CAHSentinel/CAHSentinel.csproj | head -n 1)"
+          if [[ "$project_version" != "$version" ]]; then
+            echo "Source version and release tag differ"; exit 1
+          fi
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Refusing to overwrite an existing release"; exit 1
+          fi
+          zip="CAH-Sentinel-${version}-win-x64.zip"
+          mv dist/release/CAH-Sentinel-development-win-x64.zip "$zip"
+          unzip -t "$zip" >/dev/null
+          sha256sum "$zip" > SHA256SUMS.txt
+          sha256sum --check SHA256SUMS.txt
+          awk -v v="$version" '
+            $0 == ("## " v " - 2026-10-19") {printing=1}
+            printing && /^## / && $0 != ("## " v " - 2026-10-19") {exit}
+            printing {print}
+          ' CHANGELOG.md > release-notes.md
+          if [[ ! -s release-notes.md ]]; then echo "Missing release notes"; exit 1; fi
+          printf '\nBuild source: %s\nWindows CI: https://github.com/%s/actions/runs/%s\n' "$GITHUB_SHA" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" >> release-notes.md
+          gh release create "$tag" "$zip" SHA256SUMS.txt \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "CAH Sentinel ${tag}" --notes-file release-notes.md --latest

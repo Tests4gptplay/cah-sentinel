@@ -37,6 +37,18 @@ public static class StateProjection
         var activity = Value(root, "planner_control", "activity").ToUpperInvariant();
         var wait = Value(root, "planner_control", "wait", "kind").ToUpperInvariant();
         var decision = Value(root, "planner_control", "last_decision", "decision_ref");
+        var outcomeKind = "";
+        var turnSignal = "";
+        var question = "";
+        if (!string.IsNullOrWhiteSpace(outcomeJson))
+        {
+            using var outcome = JsonDocument.Parse(outcomeJson);
+            outcomeKind = Value(outcome.RootElement, "outcome").ToUpperInvariant();
+            turnSignal = Value(outcome.RootElement, "turn_signal").ToUpperInvariant();
+            question = Value(outcome.RootElement, "semantic", "question");
+            if (string.IsNullOrWhiteSpace(question) && (outcomeKind == "WAIT" || turnSignal == "WAIT"))
+                question = Value(outcome.RootElement, "semantic", "wait_condition");
+        }
         var title = taskId;
         if (!string.IsNullOrEmpty(taskJson))
         {
@@ -46,24 +58,21 @@ public static class StateProjection
         }
 
         var mood = status switch {
-            "WAIT_USER" or "NEED_USER" => PetMood.WaitUser,
+            "WAIT" or "WAIT_USER" or "NEED_USER" => PetMood.WaitUser,
             "ERROR" or "FAILURE" => PetMood.Error,
             "BLOCKED" => PetMood.Blocked,
             "DONE" or "SUCCESS" or "COMPLETE_ACCEPTED" => PetMood.Complete,
-            _ when activity == "WAIT_USER" || wait == "NEED_USER" => PetMood.WaitUser,
+            _ when activity is "WAIT" or "WAIT_USER" || wait is "WAIT" or "NEED_USER" => PetMood.WaitUser,
             _ when wait == "WAIT_HELPER" || wait == "WAIT_WORKER_HELPER" => PetMood.WaitHelper,
+            _ when (outcomeKind is "WAIT" or "NEED_USER" || turnSignal is "WAIT" or "NEED_USER")
+                && activity is not ("ACTIVE" or "WAKING" or "REPLANNING")
+                && wait is not ("WAIT_RESULT" or "WAIT_RESOURCE" or "WAIT_DEP" or "WAIT_ADMISSION" or "WAIT_INSTALL" or "WAIT_BARRIER") => PetMood.WaitUser,
             _ when activity is "ACTIVE" or "WAKING" or "REPLANNING" => PetMood.Running,
             _ when status == "PARKED_WAIT_EVENT" && activity == "PARKED_WAIT_EVENT" => PetMood.Running,
             _ when status == "RUNNING" || status == "ACTIVE" || status == "NEW" => PetMood.Running,
             _ => PetMood.Idle
         };
 
-        var question = "";
-        if (!string.IsNullOrWhiteSpace(outcomeJson))
-        {
-            using var outcome = JsonDocument.Parse(outcomeJson);
-            question = Value(outcome.RootElement, "semantic", "question");
-        }
         if (mood == PetMood.WaitUser && string.IsNullOrEmpty(question))
             question = "Planner 正在等待人工回复，请打开 Foreground 查看最新问题。";
         // The decision reference is immutable for this Planner turn; event keys suppress repeated alerts.

@@ -4,19 +4,19 @@
 
 **CAH Sentinel is a desktop-pet task-status monitor for [Chat Agent Harness (CAH)](https://github.com/Tests4gptplay/chat-agent-harness). It provides a read-only view of CAH's locally synchronized task state; it is not a general-purpose process monitor and does not execute tasks on CAH's behalf.**
 
-**Version 0.0.4 — Local-only Windows companion (experimental).**
+**Version 0.0.5 — Local-only Windows companion (experimental).**
 
 Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It does not need a GitHub account, repository URL, Personal Access Token, or private-repository credentials.** It never fetches from the network and never modifies CAH state. Code is [AGPL-3.0-only](LICENSE); independent character artwork has separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms.
 
 **Support / 赞助：** [Ko-fi](https://ko-fi.com/kou392350) · [Patreon](https://www.patreon.com/cw/Kou848) · [爱发电 / Afdian](https://afdian.com/a/kkt_ifd1) · [支付宝 / Alipay](SPONSOR.md)
 
-## Local-only monitoring (0.0.4)
+## Local-only monitoring (0.0.5)
 
 - Read-only local Git object inspection using `git rev-parse`, `git ls-tree`, and `git show`.
 - Reads the **existing CAH Git repository on your PC**, selected via a folder picker. The path is user-configured, **not shipped with any maintainer-specific location**.
 - CAH's own local Bridge already refreshes `.git/FETCH_HEAD`. Sentinel reads exactly that local revision rather than the potentially stale working-tree JSON. **Sentinel performs no git fetch/pull/clone, remote HTTP requests or credential lookups.**
 - Each poll reads up to **5 times, 10 seconds apart** before reporting disconnection: 40 seconds of retry waits, plus read execution time. A successful retry stays silent; persistent failures notify only once until recovery. Missing or more-than-5-minute-old `FETCH_HEAD` is not treated as current state. Pause/exit cancels retries. Freshness measures CAH's local synchronization boundary, not independent remote truth.
-- Reads Task Cell JSON, exact Planner Outcome and task title from local Git objects. Alerts for `WAIT_USER`, `BLOCKED`, `ERROR` and parent `COMPLETE` are deduplicated.
+- Reads Task Cell JSON, exact Planner Outcome and task title from local Git objects. **Planner `WAIT` and `NEED_USER` share the same user-attention state**, notification and animation; real `WAIT_HELPER`/result waits stay distinct. Alerts for user attention, `BLOCKED`, `ERROR` and parent `COMPLETE` are deduplicated.
 - WPF desktop pet (optional pose sheets), Windows tray balloon alerts, pause/resume, hide/show and **Exit = no monitoring**. Windows Focus Assist may suppress balloon visibility.
 - Foreground link is **optional and local-only**. Clicking notifications opens the user-configured ChatGPT conversation; Sentinel never sends answers or authorizes CAH actions.
 
@@ -25,7 +25,7 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 中文完整指引：[安装、桌宠拖动、本地 CAH 路径和 GIF 包配置](docs/INSTALL.zh-CN.md)。
 空白配置示例：[settings.example.json](settings.example.json)（个人路径和链接均留空）。
 main 开发版实际配置保存在 EXE 同目录的 `settings.json`，通知去重记录保存在同目录的 `seen-alerts.json`；设置窗口保存时创建，
-main 开发版不再读取或写入 AppData，也不会自动迁移旧配置。EXE 目录必须可写，不可写时不回退到 AppData。已发布的 v0.0.2 包仍使用旧路径。程序不会自动读取 EXE 旁的示例。0.0.4 开发构建随包提供示例和中文安装文档。
+main 开发版不再读取或写入 AppData，也不会自动迁移旧配置。EXE 目录必须可写，不可写时不回退到 AppData。已发布的 v0.0.2 包仍使用旧路径。程序不会自动读取 EXE 旁的示例。0.0.5 发行包随包提供示例和中文安装文档。
 
 The pet supports **left-button dragging**. It starts at the bottom-right of the
 primary work area on first launch. Release the mouse to leave it where you drop it;
@@ -33,7 +33,7 @@ the position is saved locally and **restored across restarts**, without edge sna
 A saved position outside the available screens is moved back into view.
 Double-click opens the configured Foreground; right-click opens the menu.
 
-1. Download the [0.0.4 Windows x64 release](https://github.com/Tests4gptplay/cah-sentinel/releases/tag/v0.0.4), verify the ZIP with SHA256SUMS.txt, extract it once into a writable folder and run CAHSentinel.exe. For newer main development builds, use a successful [Windows Actions build](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml); Actions artifacts require two ZIP extractions and may require GitHub login. Running Sentinel does not require login.
+1. Download the [0.0.5 Windows x64 release](https://github.com/Tests4gptplay/cah-sentinel/releases/tag/v0.0.5), verify `CAH-Sentinel-0.0.5-win-x64.zip` with `SHA256SUMS.txt`, extract it once into a writable folder and run `CAHSentinel.exe`. For newer main development builds, use a successful [Windows Actions build](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml); Actions artifacts require two ZIP extractions and may require GitHub login. Running Sentinel does not require login.
 2. Keep **CAH installed and running locally**. Ensure Git for Windows is available (CAH normally uses it).
 3. In Settings select your **local CAH Git root directory** with Browse (the folder containing `.git`). No GitHub URLs or credentials are entered.
 4. Optionally configure your own Foreground ChatGPT conversation URL for click-through notifications.
@@ -42,9 +42,9 @@ Double-click opens the configured Foreground; right-click opens the menu.
 
 **Important:** If CAH's own Git sync stops, Sentinel cannot determine the latest task state. It reports **local snapshot stale**; it does not attempt to repair or connect to the private repository.
 
-## Upgrading to 0.0.4
+## Upgrading to 0.0.5
 
-Exit Sentinel from its tray menu before replacing application files. Preserve existing `settings.json`, `seen-alerts.json` and local artwork; never overwrite personal settings with the blank example. Users of older AppData-based versions may manually copy their old configuration beside the EXE while Sentinel is stopped. 0.0.4 does not read, migrate, create or delete the old AppData directory.
+Exit Sentinel from its tray menu before replacing application files. Preserve existing `settings.json`, `seen-alerts.json` and local artwork; never overwrite personal settings with the blank example. Users of older AppData-based versions may manually copy their old configuration beside the EXE while Sentinel is stopped. 0.0.5 retains 0.0.4's portable settings behavior and does not read, migrate, create or delete the old AppData directory. Existing artwork/GIF packs and the CAH installation are unchanged.
 
 See [CHANGELOG.md](CHANGELOG.md) for version history: portable settings, half-size pet with labels underneath, CAH executable/tray icons, active Planner state mapping, and the updated retry policy.
 
@@ -65,7 +65,7 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 ## Known limitations
 
 - Requires CAH's existing local `FETCH_HEAD` to stay fresh; not an independent source of canonical Git freshness.
-- 0.0.4 uses `NotifyIcon.ShowBalloonTip`, not guaranteed persistent Windows Action Center notifications.
+- 0.0.5 uses `NotifyIcon.ShowBalloonTip`, not guaranteed persistent Windows Action Center notifications.
 - Optional GIF playback is supported. Candidate character artwork remains unreviewed and separate from the executable; missing state artwork falls back to static sheets or a placeholder. See [GIF player guide](docs/animation/GF02_PLAYER.md).
 - The binary is Windows CI-built; user-machine rendering, antivirus behavior and first-run UX require real device verification.
 
