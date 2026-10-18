@@ -1,0 +1,10 @@
+{
+  "LocalRepoPath": "",
+  "SpritePackPath": "",
+  "ReducedMotion": false,
+  "ForegroundUrl": "",
+  "PollSeconds": 30,
+  "Monitoring": true,
+  "Notifications": true,
+  "ShowPet": true
+}

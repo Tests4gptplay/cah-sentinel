@@ -12,5 +12,9 @@
   <ItemGroup>
     <ProjectReference Include="../CAHSentinel.Core/CAHSentinel.Core.csproj" />
     <Content Include="assets/sprites/*.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../settings.example.json" Link="settings.example.json"
+             CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../docs/INSTALL.zh-CN.md" Link="INSTALL.zh-CN.md"
+             CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

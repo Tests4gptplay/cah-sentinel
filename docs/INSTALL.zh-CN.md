@@ -1,0 +1,113 @@
+# CAH Sentinel 安装与本地配置
+
+## 选择版本
+
+- 已发布的 **v0.0.2**：下载该 Release 的 Windows x64 ZIP，解压后运行
+  `CAHSentinel.exe`。该版本使用静态姿势，不含 GF-02 GIF 播放器。
+- **main 开发版**：从 GitHub Actions 的成功 Windows 构建下载
+  `CAH-Sentinel-development-win-x64` 构建产物，解压其中的 ZIP 后运行。
+  也可以按 README 的命令从源码构建。开发版包含 GIF 播放器；后续构建输出
+  同时提供 `settings.example.json` 和本文。未改动已发布的 v0.0.2 下载包。
+
+运行需要 Windows 10/11 x64，以及 PATH 中可用的 Git for Windows。
+自包含发布包不要求另装 .NET；从源码构建需要 .NET 10 SDK。
+无需管理员权限、GitHub 登录、私有仓库地址或 Token。
+
+## 桌宠如何操作
+
+- 桌宠是可拖动的透明置顶窗口。按住人物、占位符或状态标签的左键拖动即可移动。
+- 初始位置在主屏幕工作区右下角。**当前不保存拖动位置**，重启后回到默认位置。
+- 双击打开你配置的 Foreground 对话；右键打开操作菜单。
+- 托盘菜单可显示桌宠、打开设置、暂停/恢复监控、测试通知及退出。
+- 隐藏桌宠不会停止监控。选择“暂停监控”才会停止监控与通知；选择“退出”结束进程。
+  main 开发版暂停时也会停止 GIF 帧计时。
+
+## 首次配置：推荐使用设置窗口
+
+1. 保持你已经安装的 CAH 在本机正常运行和同步。
+2. 首次运行 Sentinel 时，CAH 路径为空，会自动打开设置窗口。
+3. 在“CAH 本地仓库根目录”中点击“浏览”，选择你实际使用的 **CAH 根目录**，
+   不是 `cah-sentinel` 目录，也不是 CAH 的 `state` 子目录。
+   根目录通常包含 `.git`；Git worktree 的 `.git` 也可能是文件。
+4. Foreground 对话链接可留空；需要点击通知跳转时再填入自己的
+   `https://chatgpt.com/…` 对话链接。Sentinel 不会自动回复。
+5. main 开发版可选填“本地 GIF 素材包”，并可开启“减少动态”；详见下节。
+6. 保存。配置只写入本机 `%LOCALAPPDATA%\CAHSentinel\settings.json`。
+
+没有选定 CAH 目录时不读取 CAH 状态；不会凭空选择某个私有目录。
+Sentinel 只读 CAH 已同步的本地 Git 对象，不执行 fetch/pull/clone，也不修改 CAH。
+
+## 空白配置示例与手工配置
+
+仓库根目录和后续开发发布输出提供 `settings.example.json`。
+其中 `LocalRepoPath`、`SpritePackPath`、`ForegroundUrl` 都为空，未预填任何个人信息。
+程序**不会自动读取 EXE 旁的示例文件**；真正的配置文件位置是：
+
+```text
+%LOCALAPPDATA%\CAHSentinel\settings.json
+```
+
+通常使用设置窗口即可，不需要手工复制。如果希望预先创建空白配置，先从托盘退出
+Sentinel，再在包含 `settings.example.json` 的目录运行 PowerShell：
+
+```powershell
+$sentinelConfigDir = Join-Path $env:LOCALAPPDATA 'CAHSentinel'
+$sentinelConfigFile = Join-Path $sentinelConfigDir 'settings.json'
+New-Item -ItemType Directory -Path $sentinelConfigDir -Force | Out-Null
+if (Test-Path $sentinelConfigFile) {
+    Write-Host '已有配置，保留原文件；请通过设置窗口修改。'
+} else {
+    Copy-Item '.\settings.example.json' $sentinelConfigFile
+}
+```
+
+手工编辑时使用合法 JSON。Windows 路径可以用 `/` 分隔；如果使用反斜杠，JSON 中
+每个反斜杠必须写成 `\\`。不要把本机真实配置提交到公开仓库。
+
+| 字段 | 含义与默认值 |
+| --- | --- |
+| `LocalRepoPath` | 空白；通过设置窗口选择本机 CAH Git 根目录 |
+| `SpritePackPath` | 空白；main 开发版可选的本地 GIF 包根目录 |
+| `ForegroundUrl` | 空白；可选的个人 ChatGPT 对话链接 |
+| `ReducedMotion` | `false`；main 开发版开启后只显示 GIF 首帧 |
+| `PollSeconds` | `30`；当前程序固定每 30 秒检查状态，手改该值不会改变间隔 |
+| `Monitoring` | `true`；允许监控，但仍须先选择 CAH 目录 |
+| `Notifications` | `true`；允许 Windows 通知，暂停时不发送 |
+| `ShowPet` | `true`；显示桌宠 |
+
+v0.0.2 不提供 GIF 包和减少动态功能；这些字段用于 main 开发版。
+
+## 本地 GIF 包（main 开发版，可选）
+
+在设置中选择 **包含 `states` 子目录的上一级文件夹**，结构如下：
+
+```text
+选中的包根目录/
+  states/idle/loop.gif
+  states/working/loop.gif
+  states/wait_user/loop.gif
+  states/error/loop.gif
+  states/complete/once.gif
+```
+
+本地查看候选素材时可选择 checkout 中的 `assets/animation-candidates`，或解压后的
+v0.4 候选素材 ZIP 根目录。素材不会自动下载，也不会自动加入 EXE。
+GIF 缺失或损坏时回退到原静态 PNG；PNG 也不存在时显示 Unicode 占位符。
+静态姿势图仍可放在 EXE 旁的 `assets/sprites/pet-idle.png`、`pet-work.png`、`pet-rest.png`。
+
+候选 GIF 仍待美术验收。原角色设计署名 **ZipZipPipe**，美术及 AI 衍生动画按
+**CC BY-NC-SA 4.0** 管理，与软件 **AGPL-3.0-only** 分开。
+请保留素材目录内的 `ATTRIBUTION.md` 和 `LICENSE-ART.md`。
+
+## 常见情况
+
+- **本地状态过期／读取失败**：确认所选目录正确，Git for Windows 可用，且 CAH 自己的
+  同步正常。现有本地 `FETCH_HEAD` 缺失或超过 5 分钟未更新时，Sentinel 会显示失联，
+  不把旧状态冒充实时状态。它不会替 CAH 修复或联网同步。
+- **看不到人物**：没有装图包时占位符是正常回退；检查本地包层级和文件名。
+- **没有弹通知**：检查监控与通知开关、Windows 勿扰模式及通知设置。
+- **找不到桌宠**：使用托盘“显示桌宠”；重启会回到默认右下角位置。
+- **想停止后台监控**：使用托盘“暂停监控”或“退出”，隐藏窗口不会结束进程。
+
+GF-02 的技术验证、完成动画触发条件和待验收项目见
+[GF02_PLAYER.md](https://github.com/Tests4gptplay/cah-sentinel/blob/main/docs/animation/GF02_PLAYER.md)。

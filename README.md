@@ -16,6 +16,15 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 
 ## Install / first run
 
+中文完整指引：[安装、桌宠拖动、本地 CAH 路径和 GIF 包配置](docs/INSTALL.zh-CN.md)。
+空白配置示例：[settings.example.json](settings.example.json)（个人路径和链接均留空）。
+实际配置保存在 `%LOCALAPPDATA%\CAHSentinel\settings.json`；设置窗口保存时创建，
+程序不会自动读取 EXE 旁的示例。后续开发构建会随包提供示例和中文安装文档。
+
+The pet supports **left-button dragging**. It starts at the bottom-right of the
+primary work area; its position is currently **not saved across restarts**.
+Double-click opens the configured Foreground; right-click opens the menu.
+
 1. Download [v0.0.2 Windows zip](../../releases/tag/v0.0.2) and extract it. Run `CAHSentinel.exe` (Win x64).
 2. Keep **CAH installed and running locally**. Ensure Git for Windows is available (CAH normally uses it).
 3. In Settings select your **local CAH Git root directory** with Browse (the folder containing `.git`). No GitHub URLs or credentials are entered.
@@ -65,6 +74,6 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 
 ## Licenses
 
-Original CAH Sentinel code and documentation are [AGPL-3.0-only](LICENSE). ZipZipPipe character art and related derivatives retain separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms. No third-party character art is committed in the source repository.
+Original CAH Sentinel code and documentation are [AGPL-3.0-only](LICENSE). ZipZipPipe character art and related derivatives retain separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms. Five unreviewed candidate GIFs are archived in the source repository with attribution; they are not bundled into application releases.
 
 Development GIF player: [GF-02 usage and validation](docs/animation/GF02_PLAYER.md). It loads an optional user-selected local pack; current source changes do not modify the published v0.0.2 Release or bundle candidate artwork into executables.
