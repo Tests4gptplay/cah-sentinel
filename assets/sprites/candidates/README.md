@@ -1,4 +1,6 @@
-# CAH Sentinel · Action candidates v0.1
+# CAH Sentinel · Action candidates v0.1 + additional generated v0.2-draft batch
+
+**Additional nine AI-generated provisional poses:** [batch manifest](manifest.generated-9.v0.2.json) and [batch review notes](GENERATED_9_REVIEW.md). PNG binaries remain in the private owner-controlled archive, not committed to public Git; they are unreviewed and do not replace the original sprite sheets or the shipped v0.0.1 app.
 
 Three AI-generated derivative art candidates based on the user's ZipZipPipe GPT dragon-girl visual references. **No art binaries are committed in this directory yet**, and the v0.0.1 release remains unchanged.
 

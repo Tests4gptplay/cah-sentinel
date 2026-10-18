@@ -1,0 +1,200 @@
+{
+  "schema": "cah-sentinel.art-candidates-batch.v0.2-draft",
+  "batch": "generated-9-frames-2026-10-18",
+  "status": "candidate_unreviewed",
+  "app_status": "not integrated into v0.0.1",
+  "contents_availability": "PNG binary files archived in a separate owner-controlled ZIP; this Git repository currently stores the manifest, not the image binaries",
+  "package": {
+    "name": "CAH-Sentinel-Generated-ActionFrames-9-v0.2-draft.zip",
+    "size_bytes": 15125076,
+    "sha256": "cfb4f4539400e600de0ee2b960d2af017d513d23bf783d27ebf6c7608aa701b0",
+    "archive_storage": "owner ChatGPT Library /CAH-Sentinel/ArtCandidates"
+  },
+  "attribution": {
+    "original_character": "ZipZipPipe GPT dragon-girl",
+    "artist_home": "https://space.bilibili.com/4168597/dynamic",
+    "license": "CC BY-NC-SA 4.0",
+    "license_uri": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "derivation": "AI-generated additional pose candidates using original user-supplied sheets as visual references; not original art by ZipZipPipe",
+    "software_code_license": "AGPL-3.0-only (separate)"
+  },
+  "qa": {
+    "file_integrity": "all 9 raw PNG SHA-256 checked after ZIP packaging; ZIP integrity PASS",
+    "format": "1122x1402 RGBA PNG",
+    "review": "not yet user-approved or validated as animation frames",
+    "warnings": "8 of 9 alpha bounding boxes touch a source edge; check cropping/clipping; generative frame-to-frame consistency unverified"
+  },
+  "frames": [
+    {
+      "stage": "AS-01",
+      "state": "WAIT_USER",
+      "action_id": "wait_user_sign_raise",
+      "zip_member": "poses/wait_user_sign_raise.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "d2a02ce22d6cb797f6d42c9463d1d4f1e30a45e75513b6c4ca144c692e85df17",
+      "alpha_nonzero_bbox_px": [
+        0,
+        1,
+        1108,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-01",
+      "state": "WAIT_USER",
+      "action_id": "wait_user_sign_hold",
+      "zip_member": "poses/wait_user_sign_hold.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "2f64c8230a31dededb824d7bf665f21edf4e52936b3d6c9864fb37462fe6f52b",
+      "alpha_nonzero_bbox_px": [
+        0,
+        21,
+        1062,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-01",
+      "state": "WAIT_USER",
+      "action_id": "wait_user_sign_wave",
+      "zip_member": "poses/wait_user_sign_wave.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "40c770e98c9a3fac93824aa9f0b0793102d5a634e685418cedc8effe84e19862",
+      "alpha_nonzero_bbox_px": [
+        47,
+        17,
+        1098,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-02",
+      "state": "BLOCKED",
+      "action_id": "blocked_prone_watch",
+      "zip_member": "poses/blocked_prone_watch.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "1f038291bb4a219bfb5d92b942657ebede3d1469015bb82f0a13976d9f78b7cc",
+      "alpha_nonzero_bbox_px": [
+        0,
+        29,
+        1104,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-02",
+      "state": "ERROR",
+      "action_id": "error_prone_low",
+      "zip_member": "poses/error_prone_low.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "34a11e6951d4f67a3bb58c62d7aadd526dfa9588cca7932aa906d84a3f07be5d",
+      "alpha_nonzero_bbox_px": [
+        0,
+        68,
+        1111,
+        1368
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-02",
+      "state": "RECOVERING",
+      "action_id": "recover_prone_lift",
+      "zip_member": "poses/recover_prone_lift.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "f79680f790e17fa1c4850c99352feabe27d2260705bc20d4ae7ed8a3477a2ea1",
+      "alpha_nonzero_bbox_px": [
+        33,
+        35,
+        1114,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-03",
+      "state": "COMPLETE",
+      "action_id": "complete_takeoff",
+      "zip_member": "poses/complete_takeoff.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "6415154e4b4daa155a17038ab7e7d34504a5f8d74cde8f6f5fd547d83cd9507e",
+      "alpha_nonzero_bbox_px": [
+        0,
+        19,
+        1122,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-03",
+      "state": "COMPLETE",
+      "action_id": "complete_bank",
+      "zip_member": "poses/complete_bank.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "550c874d7c656f66409cb59c8738b7a55247d9cc7841080c4121ccc58cb137b3",
+      "alpha_nonzero_bbox_px": [
+        0,
+        9,
+        1122,
+        1402
+      ],
+      "review": "candidate_unreviewed"
+    },
+    {
+      "stage": "AS-03",
+      "state": "COMPLETE",
+      "action_id": "complete_hover_settle",
+      "zip_member": "poses/complete_hover_settle.png",
+      "size_px": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA",
+      "sha256": "6871a326beefb502ca4978d452877a3f9f4da9b428baa5042784947eba576b57",
+      "alpha_nonzero_bbox_px": [
+        31,
+        67,
+        1098,
+        1386
+      ],
+      "review": "candidate_unreviewed"
+    }
+  ]
+}

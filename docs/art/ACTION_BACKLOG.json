@@ -8,7 +8,8 @@
     "app": "v0.0.1 experimental; untouched",
     "base_sprite_sheets": "3 original user-provided sheets (8+6+6 poses), distributed separately",
     "generated_candidates": "3 generated v0.1 RGBA candidates; not accepted",
-    "candidate_manifest": "assets/sprites/candidates/manifest.v0.1.json"
+    "candidate_manifest": "assets/sprites/candidates/manifest.v0.1.json",
+    "provisional_generated_batch": "9 additional RGBA PNG candidate frames across AS-01/02/03; preserved in owner library as standalone ZIP; not user accepted"
   },
   "license_policy": {
     "source_code": "AGPL-3.0-only",
@@ -38,7 +39,7 @@
       "id": "AS-01",
       "title": "WAIT_USER 举 NEED HELP 牌",
       "status": "not_started",
-      "new_image_budget": 2,
+      "new_image_budget": 3,
       "depends_on": [
         "AS-00"
       ],
@@ -51,7 +52,9 @@
         "wait_user_sign_hold (reuse)"
       ],
       "acceptance": "Sign is legible (or empty and text overlaid correctly), clear human-help semantics at 160–240px; user approved.",
-      "review_required": true
+      "review_required": true,
+      "provisional_generated_frames": 3,
+      "provisional_review": "pending_AS-00_and_user_review"
     },
     {
       "id": "AS-02",
@@ -70,7 +73,9 @@
         "recover_prone_lift (optional)"
       ],
       "acceptance": "Prone pose, correct anatomy, differentiated blocked/error, no gore, full sprite transparency; user approved.",
-      "review_required": true
+      "review_required": true,
+      "provisional_generated_frames": 3,
+      "provisional_review": "pending_AS-00_and_user_review"
     },
     {
       "id": "AS-03",
@@ -90,7 +95,9 @@
         "complete_land (prefer interpolation)"
       ],
       "acceptance": "Correct check sign, coherent wings/limbs/flight sequence, parent-task completion only; user approved.",
-      "review_required": true
+      "review_required": true,
+      "provisional_generated_frames": 3,
+      "provisional_review": "pending_AS-00_and_user_review"
     },
     {
       "id": "AS-04",
@@ -188,5 +195,11 @@
       "review_required": true
     }
   ],
-  "done_definition": "All stages accepted with user review, verified files/hashes/licenses, contact sheets and manifest. Source app v0.0.1 is not silently changed."
+  "done_definition": "All stages accepted with user review, verified files/hashes/licenses, contact sheets and manifest. Source app v0.0.1 is not silently changed.",
+  "generated_batch": {
+    "manifest_ref": "assets/sprites/candidates/manifest.generated-9.v0.2.json",
+    "count": 9,
+    "status": "generated_unreviewed",
+    "archive_sha256": "cfb4f4539400e600de0ee2b960d2af017d513d23bf783d27ebf6c7608aa701b0"
+  }
 }
