@@ -20,8 +20,8 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 
 中文完整指引：[安装、桌宠拖动、本地 CAH 路径和 GIF 包配置](docs/INSTALL.zh-CN.md)。
 空白配置示例：[settings.example.json](settings.example.json)（个人路径和链接均留空）。
-实际配置保存在 `%LOCALAPPDATA%\CAHSentinel\settings.json`；设置窗口保存时创建，
-程序不会自动读取 EXE 旁的示例。后续开发构建会随包提供示例和中文安装文档。
+main 开发版实际配置保存在 EXE 同目录的 `settings.json`，通知去重记录保存在同目录的 `seen-alerts.json`；设置窗口保存时创建，
+main 开发版不再读取或写入 AppData，也不会自动迁移旧配置。EXE 目录必须可写，不可写时不回退到 AppData。已发布的 v0.0.2 包仍使用旧路径。程序不会自动读取 EXE 旁的示例。后续开发构建会随包提供示例和中文安装文档。
 
 The pet supports **left-button dragging**. It starts at the bottom-right of the
 primary work area on first launch. Release the mouse to leave it where you drop it;

@@ -14,6 +14,8 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+      - name: Test portable settings
+        run: dotnet run --project tests/CAHSentinel.Settings.Tests/CAHSentinel.Settings.Tests.csproj --configuration Release
       - name: Test read-only state projection
         run: dotnet run --project tests/CAHSentinel.Core.Tests/CAHSentinel.Core.Tests.csproj --configuration Release
       - name: Test synthetic GIF playback and candidate decode

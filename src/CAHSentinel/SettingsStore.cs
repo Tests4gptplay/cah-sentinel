@@ -19,8 +19,7 @@ public sealed class SentinelSettings
 
 public static class SettingsStore
 {
-    public static string DirectoryPath { get; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CAHSentinel");
+    public static string DirectoryPath { get; } = AppContext.BaseDirectory;
     public static string SettingsPath => Path.Combine(DirectoryPath, "settings.json");
     private static string AlertPath => Path.Combine(DirectoryPath, "seen-alerts.json");
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };

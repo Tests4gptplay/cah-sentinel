@@ -34,7 +34,7 @@
 4. Foreground 对话链接可留空；需要点击通知跳转时再填入自己的
    `https://chatgpt.com/…` 对话链接。Sentinel 不会自动回复。
 5. main 开发版可选填“本地 GIF 素材包”，并可开启“减少动态”；详见下节。
-6. 保存。配置只写入本机 `%LOCALAPPDATA%\CAHSentinel\settings.json`。
+6. 保存。main 开发版配置只写入 EXE 同目录的 `settings.json`，通知去重记录为同目录的 `seen-alerts.json`。
 
 没有选定 CAH 目录时不读取 CAH 状态；不会凭空选择某个私有目录。
 Sentinel 只读 CAH 已同步的本地 Git 对象，不执行 fetch/pull/clone，也不修改 CAH。
@@ -43,17 +43,19 @@ Sentinel 只读 CAH 已同步的本地 Git 对象，不执行 fetch/pull/clone�
 
 仓库根目录和后续开发发布输出提供 `settings.example.json`。
 其中 `LocalRepoPath`、`SpritePackPath`、`ForegroundUrl` 都为空，未预填任何个人信息。
-程序**不会自动读取 EXE 旁的示例文件**；真正的配置文件位置是：
+程序**不会自动读取 EXE 旁的示例文件**；main 开发版真正的配置文件位置是：
 
 ```text
-%LOCALAPPDATA%\CAHSentinel\settings.json
+<CAHSentinel.exe 所在目录>\settings.json
 ```
+
+main 开发版不读取、迁移或写入 AppData；已有用户可退出旧版后自行将旧配置移到 EXE 目录。安装目录必须可写，不可写时不会回退到 AppData。已发布的 v0.0.2 包保持旧行为。
 
 通常使用设置窗口即可，不需要手工复制。如果希望预先创建空白配置，先从托盘退出
 Sentinel，再在包含 `settings.example.json` 的目录运行 PowerShell：
 
 ```powershell
-$sentinelConfigDir = Join-Path $env:LOCALAPPDATA 'CAHSentinel'
+$sentinelConfigDir = (Get-Location).Path # 在 EXE 所在目录执行
 $sentinelConfigFile = Join-Path $sentinelConfigDir 'settings.json'
 New-Item -ItemType Directory -Path $sentinelConfigDir -Force | Out-Null
 if (Test-Path $sentinelConfigFile) {
