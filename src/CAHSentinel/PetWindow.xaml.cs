@@ -10,7 +10,7 @@ namespace CAHSentinel;
 
 public partial class PetWindow : Window
 {
-    private readonly GitMirrorReader _reader = new(SettingsStore.DirectoryPath);
+    private readonly LocalStateReader _reader = new();
     private readonly SpriteCatalog _sprites = new();
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(30) };
     private readonly WinForms.NotifyIcon _tray;
@@ -21,7 +21,6 @@ public partial class PetWindow : Window
     private bool _polling;
     private bool _exiting;
     private bool _offlineAlerted;
-    private string _lastAlertQuestion = "";
 
     public PetWindow()
     {
@@ -46,7 +45,7 @@ public partial class PetWindow : Window
 
         _timer.Tick += async (_, _) => await PollAsync();
         StateLabel.Text = "INIT";
-        TaskLabel.Text = "等待设置 Git 仓库";
+        TaskLabel.Text = "等待选择 CAH 本地目录";
         Render(PetMood.Idle, "等待配置");
     }
 
@@ -57,7 +56,7 @@ public partial class PetWindow : Window
         Visibility = _settings.ShowPet ? Visibility.Visible : Visibility.Hidden;
         UpdateMenu();
         _timer.Start();
-        if (string.IsNullOrWhiteSpace(_settings.GitRemote))
+        if (string.IsNullOrWhiteSpace(_settings.LocalRepoPath))
             Dispatcher.BeginInvoke(new Action(OpenSettings));
         else
             await PollAsync();
@@ -65,13 +64,14 @@ public partial class PetWindow : Window
 
     private async Task PollAsync()
     {
-        if (_polling || !_settings.Monitoring || string.IsNullOrWhiteSpace(_settings.GitRemote))
+        if (_polling || !_settings.Monitoring || string.IsNullOrWhiteSpace(_settings.LocalRepoPath))
             return;
         _polling = true;
         try
         {
-            // The background Git process only touches the independent Sentinel mirror.
-            _current = await _reader.FetchAsync(_settings.GitRemote, _settings.Branch);
+            // Read only local Git objects already refreshed by CAH; no network fetch or authentication.
+            _current = await _reader.ReadAsync(_settings.LocalRepoPath);
+            if (!_settings.Monitoring) return;
             _offlineAlerted = false;
             var focus = _current.PriorityTask;
             Render(focus?.Mood ?? PetMood.Idle, focus?.Title ?? "当前没有 Task Cell");
@@ -87,7 +87,6 @@ public partial class PetWindow : Window
                     PetMood.Error => ("CAH 出现错误", task.Title + " · 查看任务状态"),
                     _ => ("CAH 任务完成", task.Title + " · 查看交付")
                 };
-                _lastAlertQuestion = task.Question;
                 ShowNotification(caption, text, task.Mood != PetMood.Complete);
                 _seen.Add(task.EventKey);
                 SettingsStore.SaveSeen(_seen);
@@ -95,12 +94,12 @@ public partial class PetWindow : Window
         }
         catch (Exception ex)
         {
-            Render(PetMood.Disconnected, "Git 读取失败");
+            Render(PetMood.Disconnected, ex is StaleLocalStateException ? "本地状态过期" : "本地状态读取失败");
             if (_settings.Notifications && !_offlineAlerted)
             {
-                _lastAlertQuestion = "";
-                ShowNotification("CAH Sentinel 连接中断", "无法读取 Git 状态：" + ex.GetType().Name +
-                    "。请检查网络、Git 凭据或设置。", true);
+                ShowNotification("CAH Sentinel 本地状态不可用",
+                    ex is StaleLocalStateException ? "CAH 的本地状态超过 5 分钟没有刷新，请检查 CAH Bridge。" :
+                    "本地 Git 状态读取失败：" + ex.GetType().Name + "。请检查目录与本地 Git。", true);
                 _offlineAlerted = true;
             }
         }

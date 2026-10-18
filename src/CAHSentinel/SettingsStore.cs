@@ -5,8 +5,7 @@ namespace CAHSentinel;
 
 public sealed class SentinelSettings
 {
-    public string GitRemote { get; set; } = "";
-    public string Branch { get; set; } = "main";
+    public string LocalRepoPath { get; set; } = "";
     public string ForegroundUrl { get; set; } = "";
     public int PollSeconds { get; set; } = 30;
     public bool Monitoring { get; set; } = true;
@@ -24,7 +23,17 @@ public static class SettingsStore
 
     public static SentinelSettings Load()
     {
-        try { return JsonSerializer.Deserialize<SentinelSettings>(File.ReadAllText(SettingsPath)) ?? new(); }
+        try
+        {
+            var raw = File.ReadAllText(SettingsPath);
+            var settings = JsonSerializer.Deserialize<SentinelSettings>(raw) ?? new();
+            using var json = JsonDocument.Parse(raw);
+            if (json.RootElement.ValueKind == JsonValueKind.Object &&
+                (json.RootElement.TryGetProperty("GitRemote", out _) ||
+                 json.RootElement.TryGetProperty("Branch", out _)))
+                Save(settings); // Drop legacy private-repository URL and branch from local settings.
+            return settings;
+        }
         catch (IOException) { return new(); }
         catch (JsonException) { return new(); }
     }
@@ -46,7 +55,6 @@ public static class SettingsStore
     public static void SaveSeen(HashSet<string> seen)
     {
         Directory.CreateDirectory(DirectoryPath);
-        // Keep the disk file bounded even after many task transitions.
         WriteAtomic(AlertPath, JsonSerializer.Serialize(seen.Order(StringComparer.Ordinal).TakeLast(250).ToArray()));
     }
 

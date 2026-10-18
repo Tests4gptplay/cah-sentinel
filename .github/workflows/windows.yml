@@ -21,20 +21,20 @@ jobs:
         run: |
           dotnet publish src/CAHSentinel/CAHSentinel.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o dist/publish
           if ($LASTEXITCODE -ne 0) { throw "dotnet publish failed" }
-          Compress-Archive -Path dist/publish/* -DestinationPath dist/CAH-Sentinel-v0.0.1-win-x64.zip
+          Compress-Archive -Path dist/publish/* -DestinationPath dist/CAH-Sentinel-v0.0.2-win-x64.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: CAH-Sentinel-v0.0.1-win-x64
-          path: dist/CAH-Sentinel-v0.0.1-win-x64.zip
+          name: CAH-Sentinel-v0.0.2-win-x64
+          path: dist/CAH-Sentinel-v0.0.2-win-x64.zip
           if-no-files-found: error
-      - name: Create first v0.0.1 prerelease after passing tests
+      - name: Create first v0.0.2 prerelease after passing tests
         if: github.ref == 'refs/heads/main'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release view v0.0.1 --repo "$env:GITHUB_REPOSITORY" 2>$null
+          gh release view v0.0.2 --repo "$env:GITHUB_REPOSITORY" 2>$null
           if ($LASTEXITCODE -ne 0) {
-            gh release create v0.0.1 dist/CAH-Sentinel-v0.0.1-win-x64.zip --repo "$env:GITHUB_REPOSITORY" --target "$env:GITHUB_SHA" --title "CAH Sentinel v0.0.1 (experimental)" --notes "Read-only Windows CAH tray monitor + experimental pet shell. Sprite pack distributed separately; see README and CC BY-NC-SA 4.0 asset notice." --prerelease
+            gh release create v0.0.2 dist/CAH-Sentinel-v0.0.2-win-x64.zip --repo "$env:GITHUB_REPOSITORY" --target "$env:GITHUB_SHA" --title "CAH Sentinel v0.0.2 (experimental)" --notes "Local-only Windows CAH tray monitor (no GitHub login or fetch) + experimental pet shell. Sprite pack distributed separately; see README and CC BY-NC-SA 4.0 asset notice." --prerelease
             if ($LASTEXITCODE -ne 0) { throw "Failed to create release" }
           }
