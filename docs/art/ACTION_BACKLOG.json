@@ -1,0 +1,192 @@
+{
+  "schema": "cah-sentinel.art-action-backlog.v1",
+  "project": "CAH Sentinel",
+  "plan": "docs/art/ACTION_GENERATION_PLAN.md",
+  "status": "planning",
+  "next_step": "AS-00",
+  "base_versions": {
+    "app": "v0.0.1 experimental; untouched",
+    "base_sprite_sheets": "3 original user-provided sheets (8+6+6 poses), distributed separately",
+    "generated_candidates": "3 generated v0.1 RGBA candidates; not accepted",
+    "candidate_manifest": "assets/sprites/candidates/manifest.v0.1.json"
+  },
+  "license_policy": {
+    "source_code": "AGPL-3.0-only",
+    "character_art": "CC BY-NC-SA 4.0",
+    "credit": "ZipZipPipe",
+    "artist_url": "https://space.bilibili.com/4168597/dynamic",
+    "public_binary_distribution": "not automatic; explicit user approval needed",
+    "modifications": "AI-generated derivatives attributed and labeled"
+  },
+  "stages": [
+    {
+      "id": "AS-00",
+      "title": "基线审查与角色一致性锁定",
+      "status": "not_started",
+      "new_image_budget": 0,
+      "depends_on": [],
+      "outputs": [
+        "23-pose contact sheet",
+        "role identity/style lock",
+        "source hashes/alpha/bounds review",
+        "user approval"
+      ],
+      "acceptance": "Existing 20+3 poses identifiable with licensing/provenance, consistent style reference and transparent baseline.",
+      "review_required": true
+    },
+    {
+      "id": "AS-01",
+      "title": "WAIT_USER 举 NEED HELP 牌",
+      "status": "not_started",
+      "new_image_budget": 2,
+      "depends_on": [
+        "AS-00"
+      ],
+      "reuse": [
+        "wait_user_need_help.png"
+      ],
+      "target_actions": [
+        "wait_user_sign_raise",
+        "wait_user_sign_wave",
+        "wait_user_sign_hold (reuse)"
+      ],
+      "acceptance": "Sign is legible (or empty and text overlaid correctly), clear human-help semantics at 160–240px; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-02",
+      "title": "ERROR/BLOCKED 趴卧分层",
+      "status": "not_started",
+      "new_image_budget": 3,
+      "depends_on": [
+        "AS-01"
+      ],
+      "reuse": [
+        "error_prone.png"
+      ],
+      "target_actions": [
+        "blocked_prone_watch",
+        "error_prone_low",
+        "recover_prone_lift (optional)"
+      ],
+      "acceptance": "Prone pose, correct anatomy, differentiated blocked/error, no gore, full sprite transparency; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-03",
+      "title": "COMPLETE 空中盘旋举√牌",
+      "status": "not_started",
+      "new_image_budget": 3,
+      "depends_on": [
+        "AS-02"
+      ],
+      "reuse": [
+        "complete_flying_check.png"
+      ],
+      "target_actions": [
+        "complete_takeoff",
+        "complete_bank",
+        "complete_hover_check (reuse)",
+        "complete_land (prefer interpolation)"
+      ],
+      "acceptance": "Correct check sign, coherent wings/limbs/flight sequence, parent-task completion only; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-04",
+      "title": "THINKING/RECOVERING 推理与诊断",
+      "status": "not_started",
+      "new_image_budget": 2,
+      "depends_on": [
+        "AS-03"
+      ],
+      "reuse": [
+        "pet-work.png existing reading/computer poses"
+      ],
+      "target_actions": [
+        "recover_checklist (optional)",
+        "thinking_compare (optional)"
+      ],
+      "acceptance": "Clearly active automatic diagnosis, not WAIT_USER or ERROR; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-05",
+      "title": "IDLE/WORKING/AUTO_WAIT 复用覆盖",
+      "status": "not_started",
+      "new_image_budget": 0,
+      "depends_on": [
+        "AS-04"
+      ],
+      "reuse": [
+        "pet-idle.png",
+        "pet-work.png",
+        "pet-rest.png"
+      ],
+      "target_actions": [
+        "idle",
+        "working",
+        "auto_wait"
+      ],
+      "acceptance": "20 original poses individually indexed; stable anchors, no excessive motion during polling; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-06",
+      "title": "PAUSED/DISCONNECTED 清晰区分",
+      "status": "not_started",
+      "new_image_budget": 0,
+      "depends_on": [
+        "AS-05"
+      ],
+      "reuse": [
+        "pet-rest.png"
+      ],
+      "target_actions": [
+        "paused_sleep",
+        "disconnected_watch"
+      ],
+      "acceptance": "Sleep vs stale connection visibly distinct; never represent stale data as live; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-07",
+      "title": "关键过渡与有限补帧",
+      "status": "not_started",
+      "new_image_budget": 2,
+      "depends_on": [
+        "AS-06"
+      ],
+      "reuse": [
+        "all accepted key frames"
+      ],
+      "target_actions": [
+        "work_to_help",
+        "help_to_work",
+        "error_to_recover",
+        "complete_takeoff_loop_land",
+        "idle_to_work"
+      ],
+      "acceptance": "128/192/256px previews show no crop/jump/artifact and transitions can be preempted by WAIT_USER; user approved.",
+      "review_required": true
+    },
+    {
+      "id": "AS-08",
+      "title": "Sprite Pack v0.2 封装与视觉验收",
+      "status": "not_started",
+      "new_image_budget": 0,
+      "depends_on": [
+        "AS-07"
+      ],
+      "target_actions": [
+        "pack manifest",
+        "per-pose crop/anchor",
+        "licensing and provenance",
+        "QA/contact sheets"
+      ],
+      "acceptance": "True PNG hashes, per-pose anchors, attribution, fallbacks and final user signoff; application integration separate.",
+      "review_required": true
+    }
+  ],
+  "done_definition": "All stages accepted with user review, verified files/hashes/licenses, contact sheets and manifest. Source app v0.0.1 is not silently changed."
+}

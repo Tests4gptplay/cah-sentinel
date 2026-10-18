@@ -34,6 +34,10 @@ CAH Sentinel is an **independent, opt-in, read-only status monitor** for a Git-c
 - v0.0.1 does not send user replies. Click-through opens the configured Foreground; users respond via CAH's normal process.
 - The supplied temporary art pack is distributed **separately** from the source-code release; see [sprite instructions](assets/sprites/README.md) and [art license](ASSET_LICENSE.md).
 
+### Art-action generation roadmap
+
+The staged, review-gated plan for expanding ZipZipPipe-inspired dragon-girl gestures is in [docs/art/ACTION_GENERATION_PLAN.md](docs/art/ACTION_GENERATION_PLAN.md), with [machine-readable progress](docs/art/ACTION_BACKLOG.json). It reuses the 20 original poses and the three unapproved derivative candidates before requesting new images; v0.0.1 remains unchanged.
+
 ### Development
 
 - `src/CAHSentinel.Core/`: read-only Git mirror + pure status projection.
