@@ -101,6 +101,16 @@ try
     }
 }
 finally { Directory.Delete(pack, recursive: true); }
+// Saved placement survives restart, screen edges, left-side monitors and unplugging.
+var desktop = new[] { new DesktopBounds(0, 0, 1920, 1040), new DesktopBounds(-1280, 0, 1280, 984) };
+Check(WindowPlacement.Restore(350, 420, 280, 350, desktop) == new DesktopPoint(350, 420), "restore exact dropped position");
+Check(WindowPlacement.Restore(-1100, 200, 280, 350, desktop) == new DesktopPoint(-1100, 200), "negative monitor coordinates retained");
+Check(WindowPlacement.Restore(-100, 100, 280, 350, desktop) == new DesktopPoint(-100, 100), "spanning monitor boundary does not snap");
+Check(WindowPlacement.Restore(1850, 900, 280, 350, desktop) == new DesktopPoint(1850, 900), "partially visible edge placement does not snap");
+Check(WindowPlacement.Restore(4000, 300, 280, 350, desktop) == new DesktopPoint(1640, 300), "removed right monitor recovered");
+Check(WindowPlacement.Restore(-1100, 200, 280, 350, [desktop[0]]) == new DesktopPoint(0, 200), "removed left monitor recovered");
+Check(WindowPlacement.Restore(100, 3000, 280, 350, desktop) == new DesktopPoint(100, 690), "offscreen vertical position recovered");
+Check(WindowPlacement.Restore(int.MaxValue, int.MinValue, 280, 350, [desktop[0]]) == new DesktopPoint(1640, 0), "invalid extreme saved coordinates recovered without overflow");
 Console.WriteLine("CAH Sentinel core tests PASSED: " + tests);
 
 await TestLocalReaderAsync();

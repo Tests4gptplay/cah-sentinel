@@ -6,5 +6,7 @@
   "PollSeconds": 30,
   "Monitoring": true,
   "Notifications": true,
-  "ShowPet": true
+  "ShowPet": true,
+  "PetLeft": null,
+  "PetTop": null
 }

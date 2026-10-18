@@ -22,7 +22,9 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 程序不会自动读取 EXE 旁的示例。后续开发构建会随包提供示例和中文安装文档。
 
 The pet supports **left-button dragging**. It starts at the bottom-right of the
-primary work area; its position is currently **not saved across restarts**.
+primary work area on first launch. Release the mouse to leave it where you drop it;
+the position is saved locally and **restored across restarts**, without edge snapping.
+A saved position outside the available screens is moved back into view.
 Double-click opens the configured Foreground; right-click opens the menu.
 
 1. Download [v0.0.2 Windows zip](../../releases/tag/v0.0.2) and extract it. Run `CAHSentinel.exe` (Win x64).

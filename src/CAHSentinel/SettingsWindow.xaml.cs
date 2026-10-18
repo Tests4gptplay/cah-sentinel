@@ -72,6 +72,7 @@ public partial class SettingsWindow : Window
             return;
         }
         Value = new SentinelSettings {
+            PetLeft = Value.PetLeft, PetTop = Value.PetTop,
             SpritePackPath = pack, ReducedMotion = ReducedMotionField.IsChecked == true,
             LocalRepoPath = local, ForegroundUrl = foreground, PollSeconds = 30,
             Notifications = NotificationField.IsChecked == true,

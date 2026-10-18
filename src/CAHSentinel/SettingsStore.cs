@@ -13,6 +13,8 @@ public sealed class SentinelSettings
     public bool Monitoring { get; set; } = true;
     public bool Notifications { get; set; } = true;
     public bool ShowPet { get; set; } = true;
+    public int? PetLeft { get; set; }
+    public int? PetTop { get; set; }
 }
 
 public static class SettingsStore

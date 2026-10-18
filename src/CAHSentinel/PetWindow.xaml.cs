@@ -61,6 +61,7 @@ public partial class PetWindow : Window
     {
         Left = SystemParameters.WorkArea.Right - Width - 22;
         Top = SystemParameters.WorkArea.Bottom - Height - 12;
+        DesktopPosition.Restore(this, _settings);
         Visibility = _settings.ShowPet ? Visibility.Visible : Visibility.Hidden;
         UpdateMenu();
         if (_settings.Monitoring) _timer.Start();
@@ -217,6 +218,7 @@ public partial class PetWindow : Window
         _settings.ShowPet = true;
         SettingsStore.Save(_settings);
         Show();
+        DesktopPosition.Restore(this, _settings);
         WindowState = WindowState.Normal;
         Activate();
     }
@@ -245,7 +247,13 @@ public partial class PetWindow : Window
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (e.ClickCount == 2) { OpenForeground(); return; }
-        try { DragMove(); } catch (InvalidOperationException) { }
+        try
+        {
+            DragMove(); // Returns when the mouse is released; persist the final position.
+            if (!DesktopPosition.Remember(this, _settings))
+                TaskLabel.Text = "位置保存失败，请检查本机配置目录权限";
+        }
+        catch (InvalidOperationException) { }
     }
 
     private void OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
