@@ -1,17 +1,24 @@
-# CAH Sentinel 安装与本地配置
+# CAH Sentinel 0.0.4 安装与本地配置
 
 ## 选择版本
 
 - 已发布的 **v0.0.2**：下载该 Release 的 Windows x64 ZIP，解压后运行
   `CAHSentinel.exe`。该版本使用静态姿势，不含 GF-02 GIF 播放器。
-- **main 开发版**：从 GitHub Actions 的成功 Windows 构建下载
-  `CAH-Sentinel-development-win-x64` 构建产物，解压其中的 ZIP 后运行。
-  也可以按 README 的命令从源码构建。开发版包含 GIF 播放器；后续构建输出
+- **当前 0.0.4（main 开发构建）**：从 [GitHub Actions](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml) 的成功 Windows 构建下载
+  `CAH-Sentinel-development-win-x64` 构建产物，先解压外层 artifact ZIP，再解压内层应用 ZIP，运行 `CAHSentinel.exe`。
+  也可以按 README 的命令从源码构建。0.0.4 包含 GIF 播放器、半尺寸桌宠及人物下方提示、CAH EXE/托盘图标；构建输出
   同时提供 `settings.example.json` 和本文。未改动已发布的 v0.0.2 下载包。
 
 运行需要 Windows 10/11 x64，以及 PATH 中可用的 Git for Windows。
 自包含发布包不要求另装 .NET；从源码构建需要 .NET 10 SDK。
-无需管理员权限、GitHub 登录、私有仓库地址或 Token。
+运行 Sentinel 无需管理员权限、GitHub 登录、私有仓库地址或 Token；但下载 GitHub Actions 构建产物可能需要登录 GitHub。
+
+## 升级到 0.0.4
+
+1. 从托盘菜单选择“退出”，不要只隐藏桌宠。
+2. 将新版应用文件放入原安装目录；保留已有 `settings.json`、`seen-alerts.json` 和素材目录，不用示例覆盖实际配置。
+3. 旧 AppData 配置不会自动迁移。需要保留时，在程序退出后手动复制到 EXE 同目录；旧目录由用户自行处理。
+4. 启动后可在设置窗口查看 `v0.0.4`。安装目录必须可写。
 
 ## 桌宠如何操作
 
@@ -119,4 +126,4 @@ GF-02 的技术验证、完成动画触发条件和待验收项目见
 
 ## 本地读取的静默重试（main 开发版）
 
-偶发本地读取失败会间隔 10 秒静默重试，每轮最多读取 5 次；中途成功不会显示失联或发送读取失败通知。连续 5 次失败才显示失联，持续失败不重复通知；后续每 30 秒仍会重新尝试。重试期间保留上次显示，首次读取时保留等待状态，不把旧数据宣称为新结果。暂停或退出会取消重试。真实任务的错误、受阻或需人工确认通知不受影响。
+偶发本地读取失败会间隔 10 秒静默重试，每轮最多读取 5 次；中途成功不会显示失联或发送读取失败通知。连续 5 次失败才显示失联，持续失败不重复通知；后续由 30 秒轮询计时器继续尝试，同一时刻只运行一轮读取。4 次等待共 40 秒，实际读取耗时另计。重试期间保留上次显示，首次读取时保留等待状态，不把旧数据宣称为新结果。暂停或退出会取消重试。真实任务的错误、受阻或需人工确认通知不受影响。

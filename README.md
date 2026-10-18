@@ -6,12 +6,12 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 
 **Support / 赞助：** [Ko-fi](https://ko-fi.com/kou392350) · [Patreon](https://www.patreon.com/cw/Kou848) · [爱发电 / Afdian](https://afdian.com/a/kkt_ifd1) · [支付宝 / Alipay](SPONSOR.md)
 
-## Local-only monitoring (v0.0.2)
+## Local-only monitoring (0.0.4)
 
 - Read-only local Git object inspection using `git rev-parse`, `git ls-tree`, and `git show`.
 - Reads the **existing CAH Git repository on your PC**, selected via a folder picker. The path is user-configured, **not shipped with any maintainer-specific location**.
 - CAH's own local Bridge already refreshes `.git/FETCH_HEAD`. Sentinel reads exactly that local revision rather than the potentially stale working-tree JSON. **Sentinel performs no git fetch/pull/clone, remote HTTP requests or credential lookups.**
-- If `FETCH_HEAD` is missing or older than 5 minutes, Sentinel shows disconnected / stale instead of pretending old status is current. Freshness measures the local synchronization boundary, not independent remote truth.
+- Each poll reads up to **5 times, 10 seconds apart** before reporting disconnection: 40 seconds of retry waits, plus read execution time. A successful retry stays silent; persistent failures notify only once until recovery. Missing or more-than-5-minute-old `FETCH_HEAD` is not treated as current state. Pause/exit cancels retries. Freshness measures CAH's local synchronization boundary, not independent remote truth.
 - Reads Task Cell JSON, exact Planner Outcome and task title from local Git objects. Alerts for `WAIT_USER`, `BLOCKED`, `ERROR` and parent `COMPLETE` are deduplicated.
 - WPF desktop pet (optional pose sheets), Windows tray balloon alerts, pause/resume, hide/show and **Exit = no monitoring**. Windows Focus Assist may suppress balloon visibility.
 - Foreground link is **optional and local-only**. Clicking notifications opens the user-configured ChatGPT conversation; Sentinel never sends answers or authorizes CAH actions.
@@ -21,7 +21,7 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 中文完整指引：[安装、桌宠拖动、本地 CAH 路径和 GIF 包配置](docs/INSTALL.zh-CN.md)。
 空白配置示例：[settings.example.json](settings.example.json)（个人路径和链接均留空）。
 main 开发版实际配置保存在 EXE 同目录的 `settings.json`，通知去重记录保存在同目录的 `seen-alerts.json`；设置窗口保存时创建，
-main 开发版不再读取或写入 AppData，也不会自动迁移旧配置。EXE 目录必须可写，不可写时不回退到 AppData。已发布的 v0.0.2 包仍使用旧路径。程序不会自动读取 EXE 旁的示例。后续开发构建会随包提供示例和中文安装文档。
+main 开发版不再读取或写入 AppData，也不会自动迁移旧配置。EXE 目录必须可写，不可写时不回退到 AppData。已发布的 v0.0.2 包仍使用旧路径。程序不会自动读取 EXE 旁的示例。0.0.4 开发构建随包提供示例和中文安装文档。
 
 The pet supports **left-button dragging**. It starts at the bottom-right of the
 primary work area on first launch. Release the mouse to leave it where you drop it;
@@ -29,16 +29,22 @@ the position is saved locally and **restored across restarts**, without edge sna
 A saved position outside the available screens is moved back into view.
 Double-click opens the configured Foreground; right-click opens the menu.
 
-1. Download [v0.0.2 Windows zip](../../releases/tag/v0.0.2) and extract it. Run `CAHSentinel.exe` (Win x64).
+1. For **0.0.4**, open a successful [Windows Actions build](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml) for the current main branch. Download `CAH-Sentinel-development-win-x64`, extract the outer artifact ZIP and then the inner application ZIP. Run `CAHSentinel.exe` from a writable folder (Windows x64). Artifact downloads may require GitHub login; running Sentinel does not. The old v0.0.2 Release does not contain these updates.
 2. Keep **CAH installed and running locally**. Ensure Git for Windows is available (CAH normally uses it).
 3. In Settings select your **local CAH Git root directory** with Browse (the folder containing `.git`). No GitHub URLs or credentials are entered.
 4. Optionally configure your own Foreground ChatGPT conversation URL for click-through notifications.
-5. Optionally unpack the separate user's ZipZipPipe sprite sheets into `assets/sprites/pet-rest.png`, `pet-idle.png`, `pet-work.png` beside the EXE. The app also works without images.
+5. Optionally select a local GIF pack containing `states/idle/loop.gif`, `states/working/loop.gif`, `states/wait_user/loop.gif`, `states/error/loop.gif`, and `states/complete/once.gif`. Set `SpritePackPath` to its root in Settings. Candidate art is separate and not bundled in the application; keep its attribution and license. Without artwork a placeholder is expected.
 6. Use the tray menu to test a Windows notification, pause/resume, or exit the process.
 
 **Important:** If CAH's own Git sync stops, Sentinel cannot determine the latest task state. It reports **local snapshot stale**; it does not attempt to repair or connect to the private repository.
 
-## Upgrading from v0.0.1
+## Upgrading to 0.0.4
+
+Exit Sentinel from its tray menu before replacing application files. Preserve existing `settings.json`, `seen-alerts.json` and local artwork; never overwrite personal settings with the blank example. Users of older AppData-based versions may manually copy their old configuration beside the EXE while Sentinel is stopped. 0.0.4 does not read, migrate, create or delete the old AppData directory.
+
+See [CHANGELOG.md](CHANGELOG.md) for version history: portable settings, half-size pet with labels underneath, CAH executable/tray icons, active Planner state mapping, and the updated retry policy.
+
+### Historical v0.0.1 → v0.0.2 behavior (not 0.0.4)
 
 The old prototype could fetch a user-configured private Git URL. That path is removed from v0.0.2. On startup the old `GitRemote` and `Branch` preference keys are dropped from `%LOCALAPPDATA%\CAHSentinel\settings.json`; the new local path remains unset until the user selects one.
 
@@ -55,8 +61,8 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 ## Known limitations
 
 - Requires CAH's existing local `FETCH_HEAD` to stay fresh; not an independent source of canonical Git freshness.
-- v0.0.2 still uses `NotifyIcon.ShowBalloonTip`, not guaranteed persistent Windows Action Center notifications.
-- The art pack currently uses temporary equal-width sheet slicing. New AI-derived candidate animations are not accepted or integrated yet; see [art generation plan](docs/art/ACTION_GENERATION_PLAN.md) and [backlog](docs/art/ACTION_BACKLOG.json).
+- 0.0.4 uses `NotifyIcon.ShowBalloonTip`, not guaranteed persistent Windows Action Center notifications.
+- Optional GIF playback is supported. Candidate character artwork remains unreviewed and separate from the executable; missing state artwork falls back to static sheets or a placeholder. See [GIF player guide](docs/animation/GF02_PLAYER.md).
 - The binary is Windows CI-built; user-machine rendering, antivirus behavior and first-run UX require real device verification.
 
 ## GIF-first animation roadmap

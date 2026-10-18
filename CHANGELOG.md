@@ -2,6 +2,8 @@
 
 ## 0.0.4 - 2026-10-19
 
+- Updated README and installation instructions for current Actions downloads, portable configuration, preserving settings during upgrades, optional GIF packs, and the distinction between artifact-download login and credential-free runtime. The old v0.0.2 release is not replaced.
+
 - Keep the local FETCH_HEAD snapshot source; increase silent read attempts from 3 to 5, ten seconds apart (40 seconds of retry waits before reporting persistent failure). Each read may take additional time. Cancellation and notification deduplication are unchanged.
 
 
