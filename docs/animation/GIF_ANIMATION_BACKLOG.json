@@ -338,5 +338,16 @@
     "WAIT_USER",
     "ERROR",
     "COMPLETE"
-  ]
+  ],
+  "candidate_binary_archive": {
+    "status": "archived_in_git",
+    "review": "candidate_unreviewed",
+    "manifest": "assets/animation-candidates/manifest.v0.4.json",
+    "gif_count": 5,
+    "sha256_verified": true,
+    "archive_sha256_verified": true,
+    "attribution": "assets/animation-candidates/ATTRIBUTION.md",
+    "license": "assets/animation-candidates/LICENSE-ART.md",
+    "note": "Binary import is independent of GF-02 implementation and M1 visual/runtime acceptance."
+  }
 }

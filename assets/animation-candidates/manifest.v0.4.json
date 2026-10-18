@@ -3,7 +3,7 @@
   "project": "CAH Sentinel",
   "date": "2026-10-18",
   "release_target": "proposed M1 only; not present in published v0.0.2 executable",
-  "public_git_binary_status": "NOT_UPLOADED; this repository holds source/tooling, hash inventory, not GIF binary objects",
+  "public_git_binary_status": "Five real GIF blobs archived under states/; verify SHA-256 against assets below.",
   "owner_archive": {
     "location": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.4.zip",
     "name": "CAH-Sentinel-GIF-Candidates-v0.4.zip",
@@ -16,7 +16,7 @@
     "art": "CC BY-NC-SA 4.0",
     "derivatives_are_ai_generated": true,
     "software": "AGPL-3.0-only",
-    "public_distribution_permission": "not assumed by record"
+    "public_distribution_permission": "Owner authorized public Git candidate archiving on 2026-10-18; executable/release packaging remains unapproved."
   },
   "source_inventory": {
     "original_sheets": 3,
@@ -198,5 +198,6 @@
       "approved_for_public_release": false,
       "note": ""
     }
-  ]
+  ],
+  "candidate_status": "candidate_unreviewed"
 }

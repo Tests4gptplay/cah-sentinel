@@ -1,6 +1,8 @@
 # Character art and other third-party assets
 
-**This repository currently does not include ZipZipPipe character artwork or sprite sheets.**
+**This repository includes five unreviewed ZipZipPipe-derived candidate GIF animations under `assets/animation-candidates/states/`. Original pose sheets remain separately managed.**
+
+See `assets/animation-candidates/ATTRIBUTION.md` and `LICENSE-ART.md` for sources, AI-derivative disclosures and changes. Public Git archiving is owner-authorized; executable/release packaging and visual acceptance remain pending.
 
 The intended GPT dragon-girl character/sprite material is credited to
 **ZipZipPipe** (Bilibili: https://space.bilibili.com/4168597/dynamic).
