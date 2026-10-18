@@ -2,6 +2,8 @@
 
 **CAH Sentinel 是 [chat-agent-harness（CAH）](https://github.com/Tests4gptplay/chat-agent-harness) 的桌宠式状态监控工具，用于只读查看该项目在本机已同步的任务状态；不是通用系统进程监控器，也不会代替 CAH 执行任务。**
 
+**CAH Sentinel is a desktop-pet task-status monitor for [Chat Agent Harness (CAH)](https://github.com/Tests4gptplay/chat-agent-harness). It provides a read-only view of CAH's locally synchronized task state; it is not a general-purpose process monitor and does not execute tasks on CAH's behalf.**
+
 **Version 0.0.4 — Local-only Windows companion (experimental).**
 
 Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It does not need a GitHub account, repository URL, Personal Access Token, or private-repository credentials.** It never fetches from the network and never modifies CAH state. Code is [AGPL-3.0-only](LICENSE); independent character artwork has separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms.
