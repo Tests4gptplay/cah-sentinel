@@ -17,6 +17,7 @@ public partial class PetWindow : Window
     private CancellationTokenSource? _pollCancellation;
     private int _generation;
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(30) };
+    private readonly System.Drawing.Icon _trayIcon;
     private readonly WinForms.NotifyIcon _tray;
     private readonly WinForms.ToolStripMenuItem _pauseItem;
     private SentinelSettings _settings = SettingsStore.Load();
@@ -33,8 +34,10 @@ public partial class PetWindow : Window
             PetImage.Source = image;
             Placeholder.Visibility = image is null ? Visibility.Visible : Visibility.Collapsed;
         });
+        using var iconStream = typeof(PetWindow).Assembly.GetManifestResourceStream("CAHSentinel.BrandIcon")!;
+        _trayIcon = new System.Drawing.Icon(iconStream);
         _tray = new WinForms.NotifyIcon {
-            Visible = true, Icon = System.Drawing.SystemIcons.Application, Text = "CAH Sentinel"
+            Visible = true, Icon = _trayIcon, Text = "CAH Sentinel"
         };
         var menu = new WinForms.ContextMenuStrip();
         menu.Items.Add("显示桌宠", null, (_, _) => Dispatcher.Invoke(ShowPet));
@@ -232,6 +235,7 @@ public partial class PetWindow : Window
         _timer.Stop();
         _tray.Visible = false;
         _tray.Dispose();
+        _trayIcon.Dispose();
         System.Windows.Application.Current.Shutdown();
     }
 

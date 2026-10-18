@@ -7,9 +7,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>CAHSentinel</AssemblyName>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
+    <ApplicationIcon>../../assets/brand/icons/cah-sentinel.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="../../assets/brand/icons/cah-sentinel.ico" LogicalName="CAHSentinel.BrandIcon" />
     <ProjectReference Include="../CAHSentinel.Core/CAHSentinel.Core.csproj" />
     <Content Include="assets/sprites/*.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../../settings.example.json" Link="settings.example.json"
