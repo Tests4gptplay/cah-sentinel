@@ -34,7 +34,7 @@
         "GF-06",
         "GF-07"
       ],
-      "status": "not_started",
+      "status": "in_progress",
       "acceptance": "Five state-specific GIFs run/switch in WPF, truthful CAH state and notification behavior, optional code-only preview without unreviewed third-party media."
     },
     {
@@ -66,7 +66,7 @@
       "assets/sprites/candidates/manifest.v0.1.json",
       "assets/sprites/candidates/manifest.generated-9.v0.2.json"
     ],
-    "generated_gif_candidates": 4
+    "generated_gif_candidates": 5
   },
   "boundaries": {
     "no_CAH_runtime_code_or_state_changes": true,
@@ -98,17 +98,19 @@
       "acceptance": "User approves M1 source selection and proven alpha/anchor consistency; M2 full-art acceptance is NOT a gate.",
       "evidence_refs": [
         "assets/animation-candidates/manifest.v0.3.json",
-        "docs/animation/GIF_QA_20261018.md"
+        "docs/animation/GIF_QA_20261018.md",
+        "assets/animation-candidates/manifest.v0.4.json",
+        "docs/animation/GIF_QA_v0.4.md"
       ],
       "user_accepted": false,
       "review_required": true,
-      "notes": "Four GIF candidates inventoried and measured; full 32-pose map, WORKING source and user review remain pending. Do not accept stage."
+      "notes": "M1 five candidate GIFs measured, but full 32-pose source review not accepted. User must review aesthetics."
     },
     {
       "id": "GF-01",
       "title": "GIF 离线编码器与 WAIT_USER 技术样片",
       "milestone": "M1",
-      "status": "not_started",
+      "status": "in_progress",
       "depends_on": [
         "GF-00"
       ],
@@ -119,9 +121,12 @@
         "GIF timing/transparency/disposal and original PNG SHA test"
       ],
       "acceptance": "First controlled GIF loops with no source PNG changes and validated palette/transparency, irrespective of final art approval.",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "assets/animation-candidates/manifest.v0.4.json"
+      ],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "provisional_note": "A local Pillow GIF generator produced tested WAIT_USER and WORKING candidate loops. Reproducible CI tool and acceptance not complete."
     },
     {
       "id": "GF-02",
@@ -161,7 +166,9 @@
       "acceptance": "Sign readable, entry once, notification deduped; only the canonical user-wait exit stops the loop.",
       "evidence_refs": [],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "provisional_candidate_gif_manifest": "assets/animation-candidates/manifest.v0.4.json",
+      "notes": "Candidate media generated; remains not_started for UI/runtime acceptance until GF-02 and owner visual approval."
     },
     {
       "id": "GF-04",
@@ -182,7 +189,9 @@
       "acceptance": "User approves prone motion; no fake recovery or repeated animation re-entry.",
       "evidence_refs": [],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "provisional_candidate_gif_manifest": "assets/animation-candidates/manifest.v0.4.json",
+      "notes": "Candidate media generated; remains not_started for UI/runtime acceptance until GF-02 and owner visual approval."
     },
     {
       "id": "GF-05",
@@ -203,7 +212,9 @@
       "acceptance": "User approves checkmark flight; only new verified parent completion causes one play.",
       "evidence_refs": [],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "provisional_candidate_gif_manifest": "assets/animation-candidates/manifest.v0.4.json",
+      "notes": "Candidate media generated; remains not_started for UI/runtime acceptance until GF-02 and owner visual approval."
     },
     {
       "id": "GF-06",
@@ -224,7 +235,9 @@
       "acceptance": "Quiet idle/working visuals run continuously independent of 30-second polling and user approves.",
       "evidence_refs": [],
       "user_accepted": false,
-      "review_required": true
+      "review_required": true,
+      "provisional_candidate_gif_manifest": "assets/animation-candidates/manifest.v0.4.json",
+      "notes": "Candidate media generated; remains not_started for UI/runtime acceptance until GF-02 and owner visual approval."
     },
     {
       "id": "GF-07",
@@ -316,5 +329,14 @@
     }
   ],
   "source_evidence": "assets/animation-candidates/manifest.v0.3.json",
-  "owner_archive": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.3.zip"
+  "owner_archive": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.3.zip",
+  "latest_asset_manifest": "assets/animation-candidates/manifest.v0.4.json",
+  "latest_owner_archive": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.4.zip",
+  "provisional_assets_ready": [
+    "IDLE",
+    "WORKING",
+    "WAIT_USER",
+    "ERROR",
+    "COMPLETE"
+  ]
 }

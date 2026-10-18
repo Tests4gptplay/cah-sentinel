@@ -50,7 +50,7 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 
 **Two milestones:** first deliver five genuinely playable GIF states (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), then expand the other six. [Revised GIF-first plan v0.2](docs/animation/GIF_ANIMATION_PLAN.md) and [GF-00–GF-10 execution backlog](docs/animation/GIF_ANIMATION_BACKLOG.json). Animation is a separate resource, not a complex rigging engine. The shipped v0.0.2 still uses static sprites, and unreviewed derivative art is not publicly bundled.
 
-Four newly generated and technically checked **candidate GIFs** (IDLE, WAIT_USER, ERROR, COMPLETE) are backed up as a separate ZIP in the owner's ChatGPT Library. [Exact GIF SHA-256 inventory](assets/animation-candidates/manifest.v0.3.json) and [QA notes](docs/animation/GIF_QA_20261018.md) are committed to Git, **not the GIF binary files**. Existing v0.0.2 application does not play them yet.
+**Five candidate GIFs now exist** (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), rechecked at a 420×420 canvas with stable figure scale. WAIT_USER v0.3 uses one consistent source image to eliminate inter-pose jumps. See the [v0.4 SHA-256 inventory](assets/animation-candidates/manifest.v0.4.json), [QA audit](docs/animation/GIF_QA_v0.4.md), and [offline binary importer](tools/gif/import_from_archive.py). The full verified ZIP is stored in the owner's ChatGPT Library; **Git currently contains only manifests/tooling, not the actual GIF binaries**. The shipped v0.0.2 application still uses static poses.
 
 ## Development
 

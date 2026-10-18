@@ -2,8 +2,8 @@
 """Opt-in, offline import of an owner-supplied CAH Sentinel GIF candidates archive.
 
 Usage:
-    python tools/gif/import_from_archive.py --zip "path/to/CAH-Sentinel-GIF-Candidates-v0.3.zip" --dry-run
-    python tools/gif/import_from_archive.py --zip "path/to/CAH-Sentinel-GIF-Candidates-v0.3.zip"
+    python tools/gif/import_from_archive.py --zip "path/to/CAH-Sentinel-GIF-Candidates-v0.4.zip" --dry-run
+    python tools/gif/import_from_archive.py --zip "path/to/CAH-Sentinel-GIF-Candidates-v0.4.zip"
 
 Never runs git, modifies CAH, fetches remote resources or publishes artwork.
 The imported ZipZipPipe-derived GIFs retain CC BY-NC-SA 4.0 independently of AGPL code.
@@ -30,10 +30,10 @@ def verify_and_import(repo: Path, archive: Path, *, dry_run: bool = False,
     if not (repo / "LICENSE").is_file() or not (repo / "src" / "CAHSentinel").is_dir():
         raise ValueError("Destination does not look like CAH Sentinel's source repository.")
     asset_root = repo / "assets" / "animation-candidates"
-    manifest = json.loads((asset_root / "manifest.v0.3.json").read_text(encoding="utf-8"))
+    manifest = json.loads((asset_root / "manifest.v0.4.json").read_text(encoding="utf-8"))
     if not archive.is_file():
         raise FileNotFoundError(archive)
-    if sha256(archive.read_bytes()) != manifest["owner_archive"]["sha256"]:
+    if sha256(archive.read_bytes()) != manifest["owner_archive"]["sha256"] or archive.stat().st_size != manifest["owner_archive"]["bytes"]:
         raise ValueError("ZIP SHA-256 mismatch: refusing unverified content.")
     pending: list[tuple[Path, bytes]] = []
     with zipfile.ZipFile(archive, "r") as z:

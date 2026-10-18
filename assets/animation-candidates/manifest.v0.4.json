@@ -1,0 +1,202 @@
+{
+  "schema": "cah-sentinel.gif-candidate-inventory.v0.4",
+  "project": "CAH Sentinel",
+  "date": "2026-10-18",
+  "release_target": "proposed M1 only; not present in published v0.0.2 executable",
+  "public_git_binary_status": "NOT_UPLOADED; this repository holds source/tooling, hash inventory, not GIF binary objects",
+  "owner_archive": {
+    "location": "ChatGPT Library /CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.4.zip",
+    "name": "CAH-Sentinel-GIF-Candidates-v0.4.zip",
+    "sha256": "2e50b81ddd48e03408a90ca9159b5d5f001dd60b86f13af99c33001093ba6bff",
+    "bytes": 3201546
+  },
+  "license": {
+    "original_artist": "ZipZipPipe",
+    "artist_url": "https://space.bilibili.com/4168597/dynamic",
+    "art": "CC BY-NC-SA 4.0",
+    "derivatives_are_ai_generated": true,
+    "software": "AGPL-3.0-only",
+    "public_distribution_permission": "not assumed by record"
+  },
+  "source_inventory": {
+    "original_sheets": 3,
+    "original_poses": 20,
+    "generated_derivative_candidates": 12,
+    "approved_assets": 0
+  },
+  "checks": {
+    "source_png_preserved": true,
+    "gif_canvas": [
+      420,
+      420
+    ],
+    "encoded_frames_reopened_and_checked": true,
+    "zip_integrity_verified": true,
+    "per_frame_alpha_bounds_checked": true,
+    "source_body_scale_fixed_for_WORKING_and_WAIT_USER": true,
+    "complete_is_oneshot_no_GIF_loop_extension": true,
+    "realtime_windows_WPF_playback_tested": false,
+    "user_visual_approval": false
+  },
+  "qa_report": "docs/animation/GIF_QA_v0.4.md",
+  "previous_manifest": "assets/animation-candidates/manifest.v0.3.json",
+  "assets": [
+    {
+      "id": "IDLE",
+      "path": "states/idle/loop.gif",
+      "state": "IDLE",
+      "filename": "CAH-Sentinel-idle-v0.1.gif",
+      "sha256": "0cac2e27bcb88e971dcdecbd5b44521b28e6bbf41ad12ea5702935885f98bc0c",
+      "size_bytes": 222191,
+      "frame_count": 7,
+      "run_ms": 6050,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          215,
+          225
+        ],
+        "height": [
+          341,
+          348
+        ]
+      },
+      "pose_ids": [
+        "I1",
+        "I2",
+        "I5"
+      ],
+      "canvas_px": [
+        420,
+        420
+      ],
+      "review": "candidate_technical_checks_passed_owner_approval_pending",
+      "approved_for_public_release": false,
+      "note": ""
+    },
+    {
+      "id": "WORKING",
+      "path": "states/working/loop.gif",
+      "state": "WORKING",
+      "filename": "CAH-Sentinel-working-v0.1.gif",
+      "sha256": "cbebe799cc7e52dfc1e01adc651a34b0e787d4f12a26561d659514c9ba6c4687",
+      "size_bytes": 321348,
+      "frame_count": 10,
+      "run_ms": 5690,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          255,
+          255
+        ],
+        "height": [
+          328,
+          328
+        ]
+      },
+      "pose_ids": [
+        "W4"
+      ],
+      "canvas_px": [
+        420,
+        420
+      ],
+      "review": "candidate_technical_checks_passed_owner_approval_pending",
+      "approved_for_public_release": false,
+      "note": "One stable W4 body pose from owner's original work sheet; ±1px motion only, no frame-dependent scaling"
+    },
+    {
+      "id": "WAIT_USER",
+      "path": "states/wait_user/loop.gif",
+      "state": "WAIT_USER",
+      "filename": "CAH-Sentinel-wait-user-v0.3.gif",
+      "sha256": "2be3d01c92610da14595799fdd1e68f1109f9af2e8194d920bda7a3062b82f62",
+      "size_bytes": 356485,
+      "frame_count": 11,
+      "run_ms": 5800,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          237,
+          237
+        ],
+        "height": [
+          331,
+          331
+        ]
+      },
+      "pose_ids": [
+        "wait_user_sign_hold"
+      ],
+      "canvas_px": [
+        420,
+        420
+      ],
+      "review": "candidate_technical_checks_passed_owner_approval_pending",
+      "approved_for_public_release": false,
+      "note": "v0.3 replaced v0.2 which intercut separately generated bodies; now exact same hold-sign artwork in all frames"
+    },
+    {
+      "id": "ERROR",
+      "path": "states/error/loop.gif",
+      "state": "ERROR",
+      "filename": "CAH-Sentinel-error-v0.3.gif",
+      "sha256": "0e9fe898dd2aec8084c8fafbef511baebbb89b53ff1f3e5bb7739317a5b9a5dc",
+      "size_bytes": 157591,
+      "frame_count": 7,
+      "run_ms": 5500,
+      "clip": "loop",
+      "bounds_px": {
+        "width": [
+          315,
+          315
+        ],
+        "height": [
+          180,
+          180
+        ]
+      },
+      "pose_ids": [
+        "error_prone_low"
+      ],
+      "canvas_px": [
+        420,
+        420
+      ],
+      "review": "candidate_technical_checks_passed_owner_approval_pending",
+      "approved_for_public_release": false,
+      "note": "Prone stays prone, no self-recovery"
+    },
+    {
+      "id": "COMPLETE",
+      "path": "states/complete/once.gif",
+      "state": "COMPLETE",
+      "filename": "CAH-Sentinel-complete-v0.2.gif",
+      "sha256": "cbcb81d3656b016e9d6e96e9adbf5512afa171f2e875899aad3e7aca57061f6c",
+      "size_bytes": 1157349,
+      "frame_count": 48,
+      "run_ms": 5760,
+      "clip": "once",
+      "bounds_px": {
+        "width": [
+          223,
+          226
+        ],
+        "height": [
+          263,
+          268
+        ]
+      },
+      "pose_ids": [
+        "complete_hover_settle"
+      ],
+      "canvas_px": [
+        420,
+        420
+      ],
+      "review": "candidate_technical_checks_passed_owner_approval_pending",
+      "approved_for_public_release": false,
+      "note": ""
+    }
+  ]
+}

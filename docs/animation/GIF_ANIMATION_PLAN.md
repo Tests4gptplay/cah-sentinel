@@ -4,6 +4,8 @@
 >
 > Decision: pre-render a small GIF per CAH presentation state, then let a minimal WPF player switch between local GIFs. **No skeletal animation engine, no CAH code changes, no network monitoring, no private repository link or authentication.**
 
+> **M1 media inventory update (2026-10-18):** Five technical GIF candidates now exist in a separate owner-held ZIP: IDLE v0.1, WORKING v0.1, WAIT_USER v0.3 (same source image every frame), ERROR v0.3 and COMPLETE v0.2 (one-shot). [SHA-256 manifest](../../assets/animation-candidates/manifest.v0.4.json) / [quality audit](GIF_QA_v0.4.md). **The Git repository has not yet received the binary GIFs; the Windows v0.0.2 app still does not play them.** User aesthetic approval and local UI integration are separate gates.
+
 ## What was corrected
 
 1. **First milestone is five working animation groups:** IDLE, WORKING, WAIT_USER, ERROR, COMPLETE — not eleven groups before the first useful prototype. BLOCKED, RECOVERING, THINKING, AUTO_WAIT, PAUSED and DISCONNECTED form a second milestone. For the first milestone, the latter six still have the existing static pose fallback; monitoring, errors and pause controls must remain functional.

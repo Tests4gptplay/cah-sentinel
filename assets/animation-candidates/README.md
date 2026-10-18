@@ -1,28 +1,31 @@
-# GIF 候选资产索引（非最终发布包）
+# CAH Sentinel GIF candidate inventory · v0.4
 
-本目录下的 [manifest.v0.3.json](manifest.v0.3.json) 是 **Git 中已提交的文字库存**。**当前尚未把四个 GIF 二进制提交到 Git**；这些文件现在保存在所有者 ChatGPT Library 的私有 ZIP `/CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.3.zip`，SHA-256 可对照清单。没有 GIF 二进制，克隆仓库后不会自动出现桌宠动画。
+This public Git repository **currently contains text metadata and an offline importer, NOT the five GIF binaries**. The full five-state GIF ZIP is preserved in the owner's ChatGPT Library: `/CAH-Sentinel/GIFDrafts/CAH-Sentinel-GIF-Candidates-v0.4.zip`. SHA-256: `2e50b81ddd48e03408a90ca9159b5d5f001dd60b86f13af99c33001093ba6bff`.
 
-计划经独立美术验收后放置：
+The current candidate set (each 420×420 pixels):
 
-- `states/idle/loop.gif`
-- `states/wait_user/loop.gif`
-- `states/error/loop.gif`
-- `states/complete/once.gif`
+| State | Planned binary path | Technical review |
+| --- | --- | --- |
+| IDLE | `states/idle/loop.gif` | Original I1/I2/I5 blinking loop; pending owner visual review |
+| WORKING | `states/working/loop.gif` | **New:** one W4 laptop pose, fixed scale, 10 frames, 5690ms; pending owner review |
+| WAIT_USER | `states/wait_user/loop.gif` | **Revised:** v0.3 hold-sign artwork, same character bitmap in every frame; pending owner review |
+| ERROR | `states/error/loop.gif` | v0.3 stable prone breathing; no false recovery |
+| COMPLETE | `states/complete/once.gif` | v0.2 one-shot flight, NOT a repeating animation |
 
-后续需要以**真正上传二进制**的方式 Git add/commit/push，确认 `git ls-tree` 中存在这些路径并与清单哈希一致；不应把 ZIP 文件名或 SHA 记录当作已上传的证明。
+See [v0.4 manifest](manifest.v0.4.json) for exact per-GIF SHA, byte size, frame count, canvas and bounding-box measurements. The previous [v0.3 inventory](manifest.v0.3.json) remains as historical evidence. The [QA review](../../docs/animation/GIF_QA_v0.4.md) distinguishes technical checks from aesthetic approval.
 
-原人物 ZipZipPipe，来源：https://space.bilibili.com/4168597/dynamic；原图以及 AI 衍生素材按 CC BY-NC-SA 4.0，程序代码 AGPL-3.0-only。镜像/公开发行要保留署名、衍生改编事实和作品授权；本素材未通过正式用户验收，暂不打包公开发行。
+## Offline binary import into your **Sentinel** Git checkout
 
-## 离线导入（需要真正上传二进制后 GitHub 才有 GIF）
-
-从本次对话保存 `CAH-Sentinel-GIF-Candidates-v0.3.zip`，然后在 **Sentinel** 仓库工作目录中使用：
+Download the ZIP from the conversation/ChatGPT Library and run the following commands **inside your local `cah-sentinel` checkout (not the private CAH repository)**:
 
 ```powershell
-python tools/gif/import_from_archive.py --zip "C:\\Downloads\\CAH-Sentinel-GIF-Candidates-v0.3.zip" --dry-run
-python tools/gif/import_from_archive.py --zip "C:\\Downloads\\CAH-Sentinel-GIF-Candidates-v0.3.zip"
+python tools/gif/import_from_archive.py --zip "C:\Downloads\CAH-Sentinel-GIF-Candidates-v0.4.zip" --dry-run
+python tools/gif/import_from_archive.py --zip "C:\Downloads\CAH-Sentinel-GIF-Candidates-v0.4.zip"
 git add assets/animation-candidates/states
-git commit -m "assets(gif): add four dragon-girl candidate animations (CC BY-NC-SA 4.0)"
+git commit -m "assets(gif): import five checked candidate loops (CC BY-NC-SA 4.0)"
 git push origin main
 ```
 
-Importer verifies archive SHA and every GIF byte length/hash, refuses traversal and unexpected content, and writes **only** into the Sentinel repository; no `git fetch`, authentication or CAH modification. **It does not do the Git commit/push for you.** Keep the original PNGs and the artist's attribution; candidates remain unreviewed until user sign-off.
+The importer verifies the exact ZIP SHA-256/length and all five GIF hashes/lengths, refuses unsafe paths and never reads, writes or executes CAH. **The importer does not itself perform a Git commit/push.** After pushing, verify `git ls-tree -r --name-only main assets/animation-candidates/states` and verify actual binary digests against the inventory. Do **not** mistake a manifest or importer commit for a GIF binary upload.
+
+License: character design by **ZipZipPipe**, source https://space.bilibili.com/4168597/dynamic, original and AI derivative art CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/). Art is not under Sentinel's AGPL software license; label all AI-generated derivative poses and preserve attribution. Public redistribution in a software release requires the owner's explicit final approval and applicable license compliance.
