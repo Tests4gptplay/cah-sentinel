@@ -48,7 +48,7 @@ The older `%LOCALAPPDATA%\CAHSentinel\readonly-mirror.git` may contain a copy of
 
 ## GIF-first animation roadmap
 
-State-specific, replaceable GIF loops are the first animation strategy; no heavy rigging engine. See [animation plan](docs/animation/GIF_ANIMATION_PLAN.md) and [execution backlog](docs/animation/GIF_ANIMATION_BACKLOG.json). Current v0.0.2 still shows static poses, and unapproved third-party derivative art is not bundled.
+**Two milestones:** first deliver five genuinely playable GIF states (IDLE, WORKING, WAIT_USER, ERROR, COMPLETE), then expand the other six. [Revised GIF-first plan v0.2](docs/animation/GIF_ANIMATION_PLAN.md) and [GF-00–GF-10 execution backlog](docs/animation/GIF_ANIMATION_BACKLOG.json). Animation is a separate resource, not a complex rigging engine. The shipped v0.0.2 still uses static sprites, and unreviewed derivative art is not publicly bundled.
 
 ## Development
 

@@ -5,7 +5,7 @@
   "status": "planning",
   "next_step": "AS-00",
   "base_versions": {
-    "app": "v0.0.1 experimental; untouched",
+    "app": "v0.0.2 local-only static app; untouched",
     "base_sprite_sheets": "3 original user-provided sheets (8+6+6 poses), distributed separately",
     "generated_candidates": "3 generated v0.1 RGBA candidates; not accepted",
     "candidate_manifest": "assets/sprites/candidates/manifest.v0.1.json",
@@ -27,12 +27,12 @@
       "new_image_budget": 0,
       "depends_on": [],
       "outputs": [
-        "23-pose contact sheet",
-        "role identity/style lock",
-        "source hashes/alpha/bounds review",
-        "user approval"
+        "32-pose (20+3+9) inventory and contact sheet",
+        "M1 five-group detailed crop/alpha/anchor review",
+        "role identity/style lock and source/provenance hashes",
+        "user review of M1 selected poses"
       ],
-      "acceptance": "Existing 20+3 poses identifiable with licensing/provenance, consistent style reference and transparent baseline.",
+      "acceptance": "All 32 inventoried, original/derivative assets distinguished, M1 relevant poses reviewed for animation cropping/anchor consistency; unreviewed M2 art does not block the GIF builder/playback proof.",
       "review_required": true
     },
     {
@@ -62,7 +62,7 @@
       "status": "not_started",
       "new_image_budget": 3,
       "depends_on": [
-        "AS-01"
+        "AS-00"
       ],
       "reuse": [
         "error_prone.png"
@@ -83,7 +83,7 @@
       "status": "not_started",
       "new_image_budget": 3,
       "depends_on": [
-        "AS-02"
+        "AS-00"
       ],
       "reuse": [
         "complete_flying_check.png"
@@ -105,7 +105,7 @@
       "status": "not_started",
       "new_image_budget": 2,
       "depends_on": [
-        "AS-03"
+        "AS-00"
       ],
       "reuse": [
         "pet-work.png existing reading/computer poses"
@@ -123,7 +123,7 @@
       "status": "not_started",
       "new_image_budget": 0,
       "depends_on": [
-        "AS-04"
+        "AS-00"
       ],
       "reuse": [
         "pet-idle.png",
@@ -144,7 +144,7 @@
       "status": "not_started",
       "new_image_budget": 0,
       "depends_on": [
-        "AS-05"
+        "AS-00"
       ],
       "reuse": [
         "pet-rest.png"
@@ -162,6 +162,11 @@
       "status": "not_started",
       "new_image_budget": 2,
       "depends_on": [
+        "AS-01",
+        "AS-02",
+        "AS-03",
+        "AS-04",
+        "AS-05",
         "AS-06"
       ],
       "reuse": [
@@ -201,5 +206,22 @@
     "count": 9,
     "status": "generated_unreviewed",
     "archive_sha256": "cfb4f4539400e600de0ee2b960d2af017d513d23bf783d27ebf6c7608aa701b0"
+  },
+  "plan_revision": "gif-first-alignment-2026-10-18",
+  "execution_policy": {
+    "focus": "First five groups: IDLE, WORKING, WAIT_USER, ERROR, COMPLETE. Continue other art groups independently after their own review.",
+    "initial_inventory": "20 original poses plus 12 derivative candidates = 32 poses",
+    "parallel_art_review_after_AS00": true,
+    "m1_priority": [
+      "AS-01",
+      "AS-02",
+      "AS-03",
+      "AS-05"
+    ],
+    "remaining_groups_deferred_to_M2": [
+      "AS-04",
+      "AS-06"
+    ],
+    "alignment_ref": "docs/animation/GIF_ANIMATION_PLAN.md"
   }
 }

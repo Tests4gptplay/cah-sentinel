@@ -1,226 +1,313 @@
 {
-  "schema": "cah-sentinel.gif-animation-backlog.v0.1",
+  "schema": "cah-sentinel.gif-animation-backlog.v0.2",
+  "revision": 2,
+  "supersedes": "cah-sentinel.gif-animation-backlog.v0.1",
   "plan_ref": "docs/animation/GIF_ANIMATION_PLAN.md",
   "art_plan_ref": "docs/art/ACTION_GENERATION_PLAN.md",
   "art_progress_ref": "docs/art/ACTION_BACKLOG.json",
-  "base_app": "v0.0.2 local-only still image release; unchanged",
+  "application_baseline": "v0.0.2 (local-only/static; unchanged by this planning revision)",
   "status": "planning",
   "next_step": "GF-00",
-  "source_inventory": {
-    "original_user_poses": 20,
-    "generated_unreviewed": 12,
-    "accepted_gif_clips": 0,
-    "generated_refs": [
+  "release_gate": "No public art packaging before independent owner approval and CC BY-NC-SA 4.0 notices.",
+  "milestone_order": [
+    "M1",
+    "M2"
+  ],
+  "milestones": [
+    {
+      "id": "M1",
+      "title": "五组能在本地软件中真正动起来",
+      "required_gifs": [
+        "IDLE",
+        "WORKING",
+        "WAIT_USER",
+        "ERROR",
+        "COMPLETE"
+      ],
+      "stage_ids": [
+        "GF-00",
+        "GF-01",
+        "GF-02",
+        "GF-03",
+        "GF-04",
+        "GF-05",
+        "GF-06",
+        "GF-07"
+      ],
+      "status": "not_started",
+      "acceptance": "Five state-specific GIFs run/switch in WPF, truthful CAH state and notification behavior, optional code-only preview without unreviewed third-party media."
+    },
+    {
+      "id": "M2",
+      "title": "剩余六组、全状态回归与独立包验收",
+      "required_gifs": [
+        "THINKING",
+        "AUTO_WAIT",
+        "RECOVERING",
+        "BLOCKED",
+        "PAUSED",
+        "DISCONNECTED"
+      ],
+      "stage_ids": [
+        "GF-08",
+        "GF-09",
+        "GF-10"
+      ],
+      "status": "not_started",
+      "acceptance": "All eleven presentation groups, full local-only QA and separate approved licensed art package."
+    }
+  ],
+  "sources": {
+    "original_sheet_pose_count": 20,
+    "ai_generated_candidate_count": 12,
+    "approved_gif_count": 0,
+    "candidates_unreviewed": true,
+    "manifests": [
       "assets/sprites/candidates/manifest.v0.1.json",
       "assets/sprites/candidates/manifest.generated-9.v0.2.json"
     ]
   },
-  "licensing": {
-    "source_code": "AGPL-3.0-only",
-    "character_art": "CC BY-NC-SA 4.0",
-    "creator": "ZipZipPipe",
-    "source": "https://space.bilibili.com/4168597/dynamic",
-    "art_not_auto_committed_or_distributed": true
-  },
-  "architecture": {
-    "source": "local CAH only",
-    "remote_fetch": false,
-    "media_format": "GIF-first + source PNG retained",
-    "gif_states": [
-      "IDLE",
-      "THINKING",
-      "WORKING",
-      "AUTO_WAIT",
-      "RECOVERING",
-      "WAIT_USER",
-      "BLOCKED",
-      "ERROR",
-      "COMPLETE",
-      "PAUSED",
-      "DISCONNECTED"
-    ],
-    "clip_modes": [
-      "entry_then_loop",
-      "loop",
-      "once",
-      "static_fallback"
-    ],
-    "poll_and_animation_clocks_independent": true,
-    "parent_completion_required": true,
-    "urgent_preemption": true
+  "boundaries": {
+    "no_CAH_runtime_code_or_state_changes": true,
+    "local_only": true,
+    "no_authentication_or_network_fetch": true,
+    "software_license": "AGPL-3.0-only",
+    "zipzippipe_art_license": "CC BY-NC-SA 4.0",
+    "art_separate_and_not_auto_distributed": true,
+    "independent_animation_clock": true,
+    "wait_user_until_durable_state_changes": true,
+    "parent_task_accepted_completion_only": true,
+    "first_sync_historical_completion_baseline": true,
+    "high_priority_preemption": true,
+    "source_RGBA_PNGs_preserved": true
   },
   "stages": [
     {
       "id": "GF-00",
-      "title": "32 姿势素材审查及锚点对齐",
+      "title": "M1 素材审查与32姿势轻量索引",
+      "milestone": "M1",
       "status": "not_started",
-      "required_art_stages": [
-        "AS-00"
-      ],
       "depends_on": [],
+      "required_art_stages": [],
       "deliverables": [
-        "asset index 20+3+9",
-        "crop/alpha/anchor contact sheets",
-        "separate rights and provenance",
-        "candidate image sign-off"
+        "32-pose inventory and provenance",
+        "M1: five-group crop/alpha/anchor/contact sheet",
+        "accept/rework notes and 128/192/256px previews"
       ],
-      "review_required": true,
+      "acceptance": "User approves M1 source selection and proven alpha/anchor consistency; M2 full-art acceptance is NOT a gate.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-01",
-      "title": "离线 Pillow GIF 制作与格式验证",
+      "title": "GIF 离线编码器与 WAIT_USER 技术样片",
+      "milestone": "M1",
       "status": "not_started",
-      "required_art_stages": [
-        "AS-00"
-      ],
       "depends_on": [
         "GF-00"
       ],
+      "required_art_stages": [],
       "deliverables": [
-        "non-destructive GIF builder",
-        "frame timing/palette/alpha tests",
-        "192/256px GIF QA previews"
+        "offline Pillow export tool",
+        "WAIT_USER single-pose motion preview + synthetic GIF test",
+        "GIF timing/transparency/disposal and original PNG SHA test"
       ],
-      "review_required": true,
+      "acceptance": "First controlled GIF loops with no source PNG changes and validated palette/transparency, irrespective of final art approval.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-02",
-      "title": "WPF 最小 GIF 播放器与状态切换",
+      "title": "最小 WPF GIF 播放器和状态切换",
+      "milestone": "M1",
       "status": "not_started",
-      "required_art_stages": [],
       "depends_on": [
         "GF-01"
       ],
+      "required_art_stages": [],
       "deliverables": [
-        "play-once/loop/stop/fallback",
-        "preemption by user help/error/pause",
-        "no-CAH-write/no-network proof"
+        "PlayLoop/PlayOnce/Stop/SwitchState/Fallback",
+        "synthetic animation fixtures",
+        "local-only/paused/urgent-preemption tests"
       ],
-      "review_required": true,
+      "acceptance": "Compiles and correctly displays test animations without CAH changes, with graceful static fallback.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-03",
-      "title": "WAIT_USER 举 NEED HELP 牌 GIF",
+      "title": "M1 WAIT_USER 牌子动画",
+      "milestone": "M1",
       "status": "not_started",
-      "required_art_stages": [
-        "AS-01"
-      ],
       "depends_on": [
         "GF-02"
       ],
-      "deliverables": [
-        "wait_user entry and loop GIF",
-        "legibility and hold-state QA",
-        "user visual sign-off"
+      "required_art_stages": [
+        "AS-01"
       ],
-      "review_required": true,
+      "deliverables": [
+        "wait_user entry + loop",
+        "accurate NEED HELP sign",
+        "user review and persistent state/notify gate"
+      ],
+      "acceptance": "Sign readable, entry once, notification deduped; only the canonical user-wait exit stops the loop.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-04",
-      "title": "趴卧 BLOCKED/ERROR/RECOVERING GIF",
+      "title": "M1 ERROR 趴卧动画",
+      "milestone": "M1",
       "status": "not_started",
+      "depends_on": [
+        "GF-02"
+      ],
       "required_art_stages": [
         "AS-02"
       ],
-      "depends_on": [
-        "GF-03"
-      ],
       "deliverables": [
-        "blocked/prone loop",
-        "error/prone loop",
-        "recovery loop",
-        "clear visual distinction"
+        "error/loop.gif",
+        "non-sleep prone distinction",
+        "visual and no-self-recovery test"
       ],
-      "review_required": true,
+      "acceptance": "User approves prone motion; no fake recovery or repeated animation re-entry.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-05",
-      "title": "COMPLETE 飞行举√牌一次性 GIF",
+      "title": "M1 COMPLETE 飞行庆祝动画",
+      "milestone": "M1",
       "status": "not_started",
+      "depends_on": [
+        "GF-02"
+      ],
       "required_art_stages": [
         "AS-03"
       ],
-      "depends_on": [
-        "GF-04"
-      ],
       "deliverables": [
-        "takeoff-bank-hover-land clip",
-        "terminal-only event tests",
-        "preemptible, once-only celebration"
+        "complete/once.gif",
+        "parent-only terminal event logic",
+        "preemptible flight demo and baseline test"
       ],
-      "review_required": true,
+      "acceptance": "User approves checkmark flight; only new verified parent completion causes one play.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-06",
-      "title": "常态、暂停和断线 GIF 覆盖",
+      "title": "M1 IDLE + WORKING 日常动画",
+      "milestone": "M1",
       "status": "not_started",
-      "required_art_stages": [
-        "AS-04",
-        "AS-05",
-        "AS-06"
-      ],
       "depends_on": [
-        "GF-05"
+        "GF-02"
+      ],
+      "required_art_stages": [
+        "AS-05"
       ],
       "deliverables": [
-        "idle/working/thinking/wait clips",
-        "paused/disconnected clips",
-        "static fallback"
+        "idle/loop.gif",
+        "working/loop.gif",
+        "stable anchors/low-motion loop tests"
       ],
-      "review_required": true,
+      "acceptance": "Quiet idle/working visuals run continuously independent of 30-second polling and user approves.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-07",
-      "title": "动画、通知、本地状态端到端测试",
+      "title": "M1 五组可运行集成与本地演示",
+      "milestone": "M1",
       "status": "not_started",
-      "required_art_stages": [
-        "AS-07"
-      ],
       "depends_on": [
+        "GF-03",
+        "GF-04",
+        "GF-05",
         "GF-06"
       ],
+      "required_art_stages": [],
       "deliverables": [
-        "60s Windows playback QA",
-        "128/192/256 previews",
-        "status priority/dedup/stale tests"
+        "five GIF groups in local-only WPF application",
+        "Windows UI demonstration and transition logs",
+        "dedup/stale/no-fetch and fallback regression"
       ],
-      "review_required": true,
+      "acceptance": "Five-group prototype locally usable, 60s playback test, no unapproved art in public release.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
     },
     {
       "id": "GF-08",
-      "title": "独立动画包、版权验收与发布",
+      "title": "M2 六个剩余动画组",
+      "milestone": "M2",
       "status": "not_started",
-      "required_art_stages": [
-        "AS-08"
-      ],
       "depends_on": [
         "GF-07"
       ],
-      "deliverables": [
-        "pack.json + individual hashes",
-        "ZipZipPipe CC notice",
-        "user approval",
-        "rollback plan"
+      "required_art_stages": [
+        "AS-04",
+        "AS-06"
       ],
-      "review_required": true,
+      "deliverables": [
+        "THINKING/AUTO_WAIT",
+        "RECOVERING/BLOCKED",
+        "PAUSED/DISCONNECTED",
+        "per-group user art review"
+      ],
+      "acceptance": "Six groups have safe GIF/fallback and truthful semantic mapping, with approvals and source provenance.",
       "evidence_refs": [],
-      "user_accepted": false
+      "user_accepted": false,
+      "review_required": true
+    },
+    {
+      "id": "GF-09",
+      "title": "11状态全系统质量与性能回归",
+      "milestone": "M2",
+      "status": "not_started",
+      "depends_on": [
+        "GF-08"
+      ],
+      "required_art_stages": [
+        "AS-07"
+      ],
+      "deliverables": [
+        "11-state synthetic CAH scenarios",
+        "multi-task/priority/entry/loop/once QA",
+        "Windows 60s+ GUI, memory, low-motion and black/white previews"
+      ],
+      "acceptance": "No stale-success or duplicated toast, bounded resources, transparent edges and visual user review.",
+      "evidence_refs": [],
+      "user_accepted": false,
+      "review_required": true
+    },
+    {
+      "id": "GF-10",
+      "title": "独立 Sprite Pack 验收和发行审批",
+      "milestone": "M2",
+      "status": "not_started",
+      "depends_on": [
+        "GF-09"
+      ],
+      "required_art_stages": [
+        "AS-08"
+      ],
+      "deliverables": [
+        "versioned pack/manifest/attribution/license",
+        "approved image SHA-256 inventory",
+        "rollback and release checklist",
+        "explicit user release approval"
+      ],
+      "acceptance": "Only formally accepted/licensable artwork distributed; code retains AGPL and CAH runtime remains untouched.",
+      "evidence_refs": [],
+      "user_accepted": false,
+      "review_required": true
     }
   ]
 }
