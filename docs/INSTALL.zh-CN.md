@@ -2,9 +2,11 @@
 
 ## 选择版本
 
+- **推荐：已发布的 [v0.0.4](https://github.com/Tests4gptplay/cah-sentinel/releases/tag/v0.0.4)**：下载 `CAH-Sentinel-0.0.4-win-x64.zip` 和 `SHA256SUMS.txt`，核对哈希后解压一次，运行 `CAHSentinel.exe`。下方 Actions 双层 ZIP 说明只适用于开发构建。
+
 - 已发布的 **v0.0.2**：下载该 Release 的 Windows x64 ZIP，解压后运行
   `CAHSentinel.exe`。该版本使用静态姿势，不含 GF-02 GIF 播放器。
-- **当前 0.0.4（main 开发构建）**：从 [GitHub Actions](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml) 的成功 Windows 构建下载
+- **main 开发构建（后续更新）**：从 [GitHub Actions](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml) 的成功 Windows 构建下载
   `CAH-Sentinel-development-win-x64` 构建产物，先解压外层 artifact ZIP，再解压内层应用 ZIP，运行 `CAHSentinel.exe`。
   也可以按 README 的命令从源码构建。0.0.4 包含 GIF 播放器、半尺寸桌宠及人物下方提示、CAH EXE/托盘图标；构建输出
   同时提供 `settings.example.json` 和本文。未改动已发布的 v0.0.2 下载包。

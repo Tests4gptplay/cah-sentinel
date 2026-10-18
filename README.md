@@ -29,7 +29,7 @@ the position is saved locally and **restored across restarts**, without edge sna
 A saved position outside the available screens is moved back into view.
 Double-click opens the configured Foreground; right-click opens the menu.
 
-1. For **0.0.4**, open a successful [Windows Actions build](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml) for the current main branch. Download `CAH-Sentinel-development-win-x64`, extract the outer artifact ZIP and then the inner application ZIP. Run `CAHSentinel.exe` from a writable folder (Windows x64). Artifact downloads may require GitHub login; running Sentinel does not. The old v0.0.2 Release does not contain these updates.
+1. Download the [0.0.4 Windows x64 release](https://github.com/Tests4gptplay/cah-sentinel/releases/tag/v0.0.4), verify the ZIP with SHA256SUMS.txt, extract it once into a writable folder and run CAHSentinel.exe. For newer main development builds, use a successful [Windows Actions build](https://github.com/Tests4gptplay/cah-sentinel/actions/workflows/windows.yml); Actions artifacts require two ZIP extractions and may require GitHub login. Running Sentinel does not require login.
 2. Keep **CAH installed and running locally**. Ensure Git for Windows is available (CAH normally uses it).
 3. In Settings select your **local CAH Git root directory** with Browse (the folder containing `.git`). No GitHub URLs or credentials are entered.
 4. Optionally configure your own Foreground ChatGPT conversation URL for click-through notifications.
