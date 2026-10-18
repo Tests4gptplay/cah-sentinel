@@ -34,7 +34,7 @@ jobs:
           path: dist/CAH-Sentinel-development-win-x64.zip
           if-no-files-found: error
   release:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release: v') }}
+    if: "${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'release: v') }}"
     needs: build
     runs-on: ubuntu-latest
     permissions:
