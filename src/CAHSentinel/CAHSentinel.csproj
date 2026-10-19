@@ -12,7 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="../../assets/brand/icons/cah-sentinel.ico" LogicalName="CAHSentinel.BrandIcon" />
-    <Content Include="../../assets/helper/loop.gif" Link="sprite-pack/states/wait_helper/loop.gif" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../assets/helper/loop.gif" Link="sprite-pack/states/wait_helper/loop.gif" ExcludeFromSingleFile="true" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="../../assets/helper/ATTRIBUTION.md" Link="sprite-pack/helper-ATTRIBUTION.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="../../assets/helper/LICENSE-ART.md" Link="sprite-pack/helper-LICENSE-ART.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <ProjectReference Include="../CAHSentinel.Core/CAHSentinel.Core.csproj" />
