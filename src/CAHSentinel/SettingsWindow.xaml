@@ -5,7 +5,7 @@
     WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="#F7F5FC">
   <Grid Margin="20">
     <StackPanel>
-      <TextBlock Text="CAH Sentinel v0.0.5 · 仅本地" FontSize="18" FontWeight="Bold" Foreground="#4D416C"/>
+      <TextBlock Text="CAH Sentinel v0.0.6 · 仅本地" FontSize="18" FontWeight="Bold" Foreground="#4D416C"/>
       <TextBlock Margin="0,4,0,15" Text="只读取本机 CAH 状态。无需私有库地址、登录或云端同步。" Foreground="#615A70"/>
       <TextBlock Text="CAH 本地仓库根目录（程序不会修改它）"/>
       <Grid Margin="0,4,0,13">

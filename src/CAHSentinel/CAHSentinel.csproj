@@ -7,11 +7,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>CAHSentinel</AssemblyName>
-    <Version>0.0.5</Version>
+    <Version>0.0.6</Version>
     <ApplicationIcon>../../assets/brand/icons/cah-sentinel.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="../../assets/brand/icons/cah-sentinel.ico" LogicalName="CAHSentinel.BrandIcon" />
+    <Content Include="../../assets/helper/loop.gif" Link="sprite-pack/states/wait_helper/loop.gif" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../assets/helper/ATTRIBUTION.md" Link="sprite-pack/helper-ATTRIBUTION.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../assets/helper/LICENSE-ART.md" Link="sprite-pack/helper-LICENSE-ART.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <ProjectReference Include="../CAHSentinel.Core/CAHSentinel.Core.csproj" />
     <Content Include="assets/sprites/*.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../../settings.example.json" Link="settings.example.json"

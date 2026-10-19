@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6 - 2026-10-19
+
+- Add the user-approved Helper troubleshooting design as a dedicated transparent looping GIF; preserve the original PNG and separate artwork attribution/license.
+- Map WaitHelper to `states/wait_helper/loop.gif`. Prefer a custom-pack Helper GIF; otherwise use the bundled one instead of the placeholder.
+- Match the existing 420x420 canvas, working-pose visible height and foot baseline. Keep the other five GIFs, pet window size, state semantics, retry policy and portable settings unchanged.
+- Include only the newly approved Helper GIF plus its art notices in application builds; older candidate artwork remains separate.
+- Update executable/settings version, README, installation guide and regression tests.
+
 ## 0.0.5 - 2026-10-19
 
 - Match CAH's Planner semantics: standalone `WAIT` in the Task Cell and legacy Planner `outcome=WAIT` / `turn_signal=wait` are displayed as `NEED_USER`, using the existing WaitUser pet state and Windows notification. Use `semantic.wait_condition` as the question only when an old WAIT does not have `semantic.question`.

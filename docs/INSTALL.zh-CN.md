@@ -1,4 +1,10 @@
-# CAH Sentinel 0.0.5 安装与本地配置
+# CAH Sentinel 安装与本地配置
+
+## 0.0.6 main 开发构建：Helper 专用动画
+
+0.0.6 为 Helper 处理中加入工具箱与诊断面板的专用循环 GIF。统一使用 420x420 透明画布，可见高度及脚底基线按现有工作动画对齐。自定义 SpritePackPath 中存在 `states/wait_helper/loop.gif` 时优先使用；没有时自动使用 EXE 同目录 `sprite-pack` 内附的 Helper 素材。随包保留 `helper-ATTRIBUTION.md`、`helper-LICENSE-ART.md`。其他已有 GIF、配置和桌宠尺寸不变。
+
+升级前从托盘退出 Sentinel，替换应用文件并合并随包 `sprite-pack` 子目录，保留 `settings.json`、`seen-alerts.json` 和其他五种 GIF。设置窗口应显示 v0.0.6。旧版 Release 下载说明见下文，本次没有改动旧 Release；0.0.6 可从 main 的成功 Windows Actions 构建获取。
 
 ## 选择版本
 

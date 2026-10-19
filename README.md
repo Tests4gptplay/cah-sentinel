@@ -4,13 +4,13 @@
 
 **CAH Sentinel is a desktop-pet task-status monitor for [Chat Agent Harness (CAH)](https://github.com/Tests4gptplay/chat-agent-harness). It provides a read-only view of CAH's locally synchronized task state; it is not a general-purpose process monitor and does not execute tasks on CAH's behalf.**
 
-**Version 0.0.5 — Local-only Windows companion (experimental).**
+**Version 0.0.6 — Local-only Windows companion (experimental).**
 
 Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It does not need a GitHub account, repository URL, Personal Access Token, or private-repository credentials.** It never fetches from the network and never modifies CAH state. Code is [AGPL-3.0-only](LICENSE); independent character artwork has separate [CC BY-NC-SA 4.0](ASSET_LICENSE.md) terms.
 
 **Support / 赞助：** [Ko-fi](https://ko-fi.com/kou392350) · [Patreon](https://www.patreon.com/cw/Kou848) · [爱发电 / Afdian](https://afdian.com/a/kkt_ifd1) · [支付宝 / Alipay](SPONSOR.md)
 
-## Local-only monitoring (0.0.5)
+## Local-only monitoring (0.0.6)
 
 - Read-only local Git object inspection using `git rev-parse`, `git ls-tree`, and `git show`.
 - Reads the **existing CAH Git repository on your PC**, selected via a folder picker. The path is user-configured, **not shipped with any maintainer-specific location**.
@@ -19,6 +19,12 @@ Sentinel is a voluntary desktop pet + Windows notification utility for CAH. **It
 - Reads Task Cell JSON, exact Planner Outcome and task title from local Git objects. **Planner `WAIT` and `NEED_USER` share the same user-attention state**, notification and animation; real `WAIT_HELPER`/result waits stay distinct. Alerts for user attention, `BLOCKED`, `ERROR` and parent `COMPLETE` are deduplicated.
 - WPF desktop pet (optional pose sheets), Windows tray balloon alerts, pause/resume, hide/show and **Exit = no monitoring**. Windows Focus Assist may suppress balloon visibility.
 - Foreground link is **optional and local-only**. Clicking notifications opens the user-configured ChatGPT conversation; Sentinel never sends answers or authorizes CAH actions.
+
+## Helper animation (0.0.6 main build)
+
+Helper processing now has a dedicated toolbox/diagnostic-panel looping GIF instead of a placeholder. The 420x420 transparent canvas, visible character height and foot baseline match the working animation. Custom packs may provide `states/wait_helper/loop.gif`; otherwise this state uses the bundled Helper GIF. Only this newly approved Helper art is bundled; the five older candidate GIFs remain separate. [Attribution and license](assets/helper/ATTRIBUTION.md).
+
+Helper 处理中新增专用循环动画，透明画布与现有素材统一为 420x420，按工作姿态的可见高度和脚底基线对齐。自定义图包可提供 `states/wait_helper/loop.gif`；缺失时使用随程序提供的 Helper GIF。其他五种候选素材保持独立，不被重新打包。
 
 ## Install / first run
 

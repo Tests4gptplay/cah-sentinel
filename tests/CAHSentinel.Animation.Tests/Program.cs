@@ -50,7 +50,7 @@ internal static class Program
         Directory.CreateDirectory(root);
         try
         {
-            foreach (var mood in new[] { PetMood.Idle, PetMood.Running, PetMood.WaitUser, PetMood.Error, PetMood.Complete })
+            foreach (var mood in new[] { PetMood.Idle, PetMood.Running, PetMood.WaitHelper, PetMood.WaitUser, PetMood.Error, PetMood.Complete })
             {
                 var dest = Path.Combine(root, AnimationPack.RelativePath(mood)!);
                 Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
@@ -69,6 +69,10 @@ internal static class Program
             var prior = displays;
             player.SwitchState(new(PetMood.Running), root, false, () => fallback);
             Check(displays == prior, "poll does not reload or restart loop");
+            player.SwitchState(new(PetMood.WaitHelper), root, false, () => fallback);
+            Check(player.IsPlaying && displayed?.PixelWidth == 3, "Helper uses custom-pack GIF instead of placeholder");
+            player.SwitchState(new(PetMood.WaitHelper), Path.Combine(root, "missing-pack"), false, () => fallback);
+            Check(player.IsPlaying && displayed?.PixelWidth == 420, "Helper uses bundled GIF when custom pack has no Helper");
             player.SwitchState(new(PetMood.WaitUser), root, false, () => fallback);
             Check(player.IsPlaying, "urgent WAIT_USER preempts running");
             player.SwitchState(new(PetMood.Paused), root, false, () => fallback);

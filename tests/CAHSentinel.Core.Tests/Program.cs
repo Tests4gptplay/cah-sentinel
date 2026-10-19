@@ -102,6 +102,7 @@ try
     Check(AnimationPack.Resolve("https://example.com", "loop.gif") is null, "remote pack rejected");
     Check(AnimationPack.Resolve(@"\\server\share", "loop.gif") is null, "UNC pack rejected");
     Check(AnimationPack.Resolve(pack, "states/error/missing.gif") is null, "missing GIF fallback");
+    Check(AnimationPack.RelativePath(PetMood.WaitHelper) == "states/wait_helper/loop.gif", "helper uses its dedicated GIF");
     Check(AnimationPack.RelativePath(PetMood.Complete) == "states/complete/once.gif", "complete uses once media");
     Check(AnimationPack.RelativePath(PetMood.Paused) is null, "pause has static fallback");
     Check(AnimationPack.RelativePath(PetMood.Disconnected) is null, "stale has static fallback");

@@ -5,6 +5,7 @@ public static class AnimationPack
 {
     public static string? RelativePath(PetMood mood) => mood switch {
         PetMood.Idle => "states/idle/loop.gif",
+        PetMood.WaitHelper => "states/wait_helper/loop.gif",
         PetMood.Running => "states/working/loop.gif",
         PetMood.WaitUser => "states/wait_user/loop.gif",
         PetMood.Error => "states/error/loop.gif",

@@ -1,0 +1,43 @@
+{
+  "schema": "cah-sentinel.helper-animation.v1",
+  "date": "2026-10-19",
+  "mood": "WaitHelper",
+  "path": "loop.gif",
+  "canvas": [
+    420,
+    420
+  ],
+  "frame_count": 48,
+  "run_ms": 6010,
+  "loop": 0,
+  "first_alpha_bbox": [
+    81,
+    78,
+    326,
+    406
+  ],
+  "alpha_bbox_ranges": [
+    [
+      81,
+      81
+    ],
+    [
+      76,
+      80
+    ],
+    [
+      326,
+      326
+    ],
+    [
+      405,
+      406
+    ]
+  ],
+  "sha256": "a6f72ae40bd1b0e76308242f09d592e72fa70c0cde4e9cb5dffc645d0c93953c",
+  "source_sha256": "d574aca55b7f62954735a2e96f66bf4e0db509dc479c6160c725e2981aae7d24",
+  "approval": "User approved still design and requested animated local/Git integration; final motion is newly delivered.",
+  "original_artist": "ZipZipPipe",
+  "art_license": "CC BY-NC-SA 4.0",
+  "software_license": "AGPL-3.0-only"
+}

@@ -44,6 +44,8 @@ public sealed class GifPlayer : IDisposable
         }
         var relative = AnimationPack.RelativePath(intent.Mood);
         var path = relative is null ? null : AnimationPack.Resolve(packRoot, relative);
+        if (path is null && intent.Mood == PetMood.WaitHelper)
+            path = AnimationPack.Resolve(AppContext.BaseDirectory, "sprite-pack/states/wait_helper/loop.gif");
         if (path is null) { Fallback(); return; }
         try
         {
